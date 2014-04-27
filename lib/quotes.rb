@@ -1,5 +1,6 @@
 require "quotes/version"
 
+require "quotes/entities"
+
 module Quotes
-  # Your code goes here...
 end
