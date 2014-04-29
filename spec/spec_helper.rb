@@ -1,11 +1,17 @@
 require 'minitest/autorun'
 
 $LOAD_PATH.unshift('lib', 'spec')
-Dir.glob('./spec/**/*_spec.rb') { |f| require f }
+
+# require all support files
+Dir.glob('./spec/support/*.rb')  { |f| require f }
+
+# require all spec files
+Dir.glob('./spec/**/*spec.rb')  { |f| require f }
 
 require 'quotes'
 
-class QuotesSpec < Minitest::Spec
+class Minitest::Spec
+  include Support::AssertionHelpers
   include Quotes
 
 end

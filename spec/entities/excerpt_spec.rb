@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class ExcerptSpec < QuotesSpec
+class ExcerptSpec < Minitest::Spec
   let(:author)  { 'joe' }
   let(:title)   { 'joes book' }
   let(:content) { 'four score and...' }
@@ -29,17 +29,17 @@ class ExcerptSpec < QuotesSpec
 
       describe 'author' do
         let(:author)  {nil}
-        it('fails')   {assert_failure}
+        it('fails')   {assert_failure{excerpt}}
       end
 
       describe 'title' do
         let(:title) {nil}
-        it('fails') {assert_failure}
+        it('fails') {assert_failure{excerpt}}
       end
 
       describe 'content' do
         let(:content) {nil}
-        it('fails')   {assert_failure}
+        it('fails')   {assert_failure{excerpt}}
       end
 
     end
@@ -60,10 +60,6 @@ class ExcerptSpec < QuotesSpec
       end
     end
 
-  end
-
-  def assert_failure
-    assert_raises(ArgumentError) { excerpt }
   end
 
 end
