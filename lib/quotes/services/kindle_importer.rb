@@ -19,7 +19,7 @@ module Services
       value   = clippings_file
       reason  = "Clippings file missing"
 
-      raise_argument_error(reason, "run") if value.nil? || value.empty?
+      raise_argument_error(reason, :run) if value.nil? || value.empty?
     end
 
     def convert_to_excerpts(clippings_file)
