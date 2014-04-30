@@ -2,23 +2,23 @@ require 'spec_helper'
 
 class KindleImporterSpec < Minitest::Spec
   let(:kindle_importer) { Services::KindleImporter.new }
-  let(:clippings) do
+  let(:input) do
     File.read("spec/support/sample_kindle_clippings.txt")
   end
 
-  let(:result)          { kindle_importer.import(clippings) }
+  let(:result)          { kindle_importer.import(input) }
 
   describe 'import' do
 
-    describe 'without a valid clippings file' do
-      let(:clippings)   { '' }
+    describe 'without valid input' do
+      let(:input)   { '' }
 
       it 'fails' do
         assert_failure {result}
       end
     end
     
-    describe 'with a valid clippings file' do
+    describe 'with valid input' do
       let(:first_result)  { result[0] } 
 
       it 'parses the file into exceprts' do

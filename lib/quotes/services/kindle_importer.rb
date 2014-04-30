@@ -7,23 +7,22 @@ module Services
       @parser = KindleClippings::Parser.new
     end
 
-    def import(clippings_file)
-      validate(clippings_file)
+    def import(input)
+      validate(input)
 
-      convert_to_excerpts(clippings_file)
+      convert_to_excerpts(input)
     end
 
     private
 
-    def validate(clippings_file)
-      value   = clippings_file
-      reason  = "Clippings file missing"
+    def validate(input)
+      reason  = "Input missing"
 
-      raise_argument_error(reason, :run) if value.nil? || value.empty?
+      raise_argument_error(reason, :run) if input.nil? || input.empty?
     end
 
-    def convert_to_excerpts(clippings_file)
-      clippings = parse clippings_file
+    def convert_to_excerpts(input)
+      clippings = parse input
 
       clippings.map do |clipping|
         build_excerpt_from clipping
