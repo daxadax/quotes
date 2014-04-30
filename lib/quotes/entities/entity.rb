@@ -1,12 +1,6 @@
 module Entities
   class Entity
+    include Support::ValidationHelpers
 
-    def raise_argument_error(reason)
-      klass = self.class.name.split('::').last
-      msg = "#{klass} cannot be built: "
-
-      raise ArgumentError, msg + reason
-    end
-    
   end
 end
