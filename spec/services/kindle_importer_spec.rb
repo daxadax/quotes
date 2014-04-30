@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 class KindleImporterSpec < Minitest::Spec
-  let(:quotes_gateway)  { FakeGateway.new }  
   let(:kindle_importer) { Services::KindleImporter.new }
   let(:clippings) do
     File.read("spec/support/sample_kindle_clippings.txt")
