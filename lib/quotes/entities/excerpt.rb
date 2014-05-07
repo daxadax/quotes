@@ -1,6 +1,6 @@
 module Entities
   class Excerpt < Entity
-    attr_reader :author, :title, :content, :source
+    attr_reader :author, :title, :content, :source, :tags
 
     def initialize(author, title, content, options = {})
       validate(author, title, content)
@@ -9,6 +9,7 @@ module Entities
       @title    = title
       @content  = content
       @source   = build_source(options)
+      @tags     = options[:tags] || nil
     end
 
     private

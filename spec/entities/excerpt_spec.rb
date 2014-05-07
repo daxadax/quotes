@@ -60,6 +60,19 @@ class ExcerptSpec < Minitest::Spec
       end
     end
 
+    describe 'can build tags' do
+      let(:tags) { ['tag_one', 'tag_two', 'tag_three'] }
+      let(:options) do
+        {
+          :tags => tags
+        }
+      end
+
+      it "with an options hash" do
+        assert_equal 3, excerpt.tags.size
+      end
+    end
+
   end
 
 end
