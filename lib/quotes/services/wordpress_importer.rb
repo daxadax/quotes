@@ -33,7 +33,7 @@ module Services
       title   = fetch_title item
       page    = fetch_page_number item
       author  = fetch_author item
-      content = content_at(item, 7)
+      content = fetch_content item
       tags    = build_tags item, author
 
       options = build_options(page, tags)
@@ -68,6 +68,12 @@ module Services
 
     def fetch_author(item)
       content_at(item, 0)
+    end
+
+    def fetch_content(item)
+      content = content_at(item, 7)
+
+      content
     end
 
     def build_tags(item, author)

@@ -32,7 +32,7 @@ class WordpressImporterSpec < Minitest::Spec
         assert_equal 4,       result.size
       end
 
-      it "formats content" do
+      it "removes leading/trailing formatting from the content" do
         skip
       end
 
