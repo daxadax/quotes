@@ -17,9 +17,9 @@ class KindleImporterSpec < Minitest::Spec
         assert_failure {result}
       end
     end
-    
+
     describe 'with valid input' do
-      let(:first_result)  { result[0] } 
+      let(:first_result)  { result[0] }
 
       it 'parses the file into exceprts' do
         assert_kind_of Entities::Excerpt, first_result
