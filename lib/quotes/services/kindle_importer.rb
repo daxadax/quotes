@@ -25,7 +25,7 @@ module Services
       clippings = parse input
 
       clippings.map do |clipping|
-        build_excerpt_from clipping
+        build_excerpt_from clipping unless clipping.type == :Bookmark
       end.compact
     end
 
@@ -35,9 +35,8 @@ module Services
       content = clipping.content
       page    = clipping.page
 
-      unless clipping.type == :Bookmark
-        Entities::Excerpt.new(author, title, content, {:page_number => page})
-      end
+
+      Entities::Excerpt.new(author, title, content, {:page_number => page})
     end
 
     def parse(file_content)
