@@ -3,6 +3,8 @@ require 'nokogiri'
 module Services
   class WordpressImporter < Service
 
+    TAG_BLACKLIST = %w[ quotes anecdotes concepts Uncategorized ]
+
     def initialize
       @parser = Nokogiri
     end
@@ -80,12 +82,12 @@ module Services
       tags = fetch_tags item
 
       tags.reject do |tag|
-        author.match(tag) || tag.strip.empty?
+        author.match(tag) || TAG_BLACKLIST.include?(tag) || tag.strip.empty?
       end
     end
 
     def fetch_tags(item)
-      item[21...-1].map do |tag| 
+      item[21...-1].map do |tag|
         tag.children.first.content
       end
     end
@@ -96,7 +98,7 @@ module Services
 
     def retrieve_items_from(input)
       parsed_input = @parser.XML(input)
-      
+
       parsed_input.css('item')
     end
 
