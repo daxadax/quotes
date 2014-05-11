@@ -17,9 +17,9 @@ class WordpressImporterSpec < Minitest::Spec
         assert_failure  {result}
       end
     end
-    
+
     describe 'with valid input' do
-      let(:result_one)  { result[0] } 
+      let(:result_one)  { result[0] }
       let(:result_two)  { result[1] }
       let(:last_result) { result[-1] }
 
@@ -32,14 +32,10 @@ class WordpressImporterSpec < Minitest::Spec
         assert_equal 4,       result.size
       end
 
-      it "removes leading/trailing formatting from the content" do
-        skip
-      end
-
       it "creates the correct attributes for the Excerpts" do
         assert_equal "Hot, Flat, and Crowded",  result_one.title
         assert_equal "The Portable Nietzsche",  result_two.title
-        assert_equal "The Origins and History of Consciousness", 
+        assert_equal "The Origins and History of Consciousness",
           last_result.title
 
         assert_equal "Thomas L. Friedman",      result_one.author
@@ -50,9 +46,9 @@ class WordpressImporterSpec < Minitest::Spec
         assert_includes result_two.content,     "not to react"
         assert_includes last_result.content,    "psycho-evolutionary"
 
-        assert_equal 6,                         result_one.tags.size
-        assert_equal 6,                         result_two.tags.size
-        assert_equal 4,                         last_result.tags.size
+        assert_equal 5,                         result_one.tags.size
+        assert_equal 5,                         result_two.tags.size
+        assert_equal 3,                         last_result.tags.size
 
         assert_equal "555",                     result_one.source[:page_number]
         assert_equal "511",                     result_two.source[:page_number]
