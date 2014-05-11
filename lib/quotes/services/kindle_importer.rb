@@ -35,8 +35,9 @@ module Services
       content = clipping.content
       page    = clipping.page
 
-
-      Entities::Excerpt.new(author, title, content, {:page_number => page})
+      unless content.empty?
+        Entities::Excerpt.new(author, title, content, {:page_number => page})
+      end
     end
 
     def parse(file_content)
