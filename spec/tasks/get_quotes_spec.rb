@@ -10,7 +10,7 @@ class GetQuotesSpec < Minitest::Spec
     ]
   end
 
-  let(:get_quotes)  { UseCases::GetQuotes.new(input) }
+  let(:get_quotes)  { Tasks::GetQuotes.new(input) }
 
   describe "call" do
 

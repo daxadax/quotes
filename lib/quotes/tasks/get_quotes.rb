@@ -1,11 +1,11 @@
-module UseCases
-  class GetQuotes < UseCase
+module Tasks
+  class GetQuotes < Task
 
     def initialize(input)
       @files = determine_file_types(input)
     end
 
-    def call
+    def run
       quotes = get_quotes
 
       remove_duplicates(quotes)
