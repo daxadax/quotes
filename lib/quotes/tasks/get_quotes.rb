@@ -1,14 +1,16 @@
 module Tasks
   class GetQuotes < Task
 
-    def initialize(input)
-      @files = determine_file_types(input)
+    def initialize(input = nil, gateway = nil)
+      input_files = determine_input(input)
+      @files      = determine_file_types(input_files)
+      @gateway    = gateway #|| Gateways::QuotesGateway.new
     end
 
     def run
-      quotes = get_quotes
+      quotes = remove_duplicates(get_quotes)
 
-      remove_duplicates(quotes)
+      gateway.add quotes
     end
 
     private
@@ -31,6 +33,10 @@ module Tasks
 
     def files
       @files
+    end
+
+    def gateway
+      @gateway
     end
 
   end
