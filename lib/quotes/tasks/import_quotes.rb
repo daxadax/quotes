@@ -1,8 +1,8 @@
 module Tasks
   class ImportQuotes < Task
 
-    def initialize(input = nil, gateway = nil)
-      input_files = determine_input(input)
+    def initialize(files = nil, gateway = nil)
+      input_files = determine_input(files)
       @files      = determine_file_types(input_files)
       @gateway    = gateway || Gateways::QuotesGateway.new
     end
