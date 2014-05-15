@@ -1,6 +1,8 @@
 module Tasks
   class Task
 
+    SEED_DIR = './lib/seeds/'
+
     def determine_input(input)
       if input.nil?
         build_input_from_seeds
@@ -24,6 +26,8 @@ module Tasks
     private
 
     def build_input_from_seeds
+      handle_missing_seeds
+
       Dir.glob('./lib/seeds/*').map do |f|
         File.read(f)
       end
@@ -33,6 +37,11 @@ module Tasks
       return [:kindle, file] if file.start_with?("==")
 
       [:wordpress, file]
+    end
+
+    def handle_missing_seeds
+      msg = "Please put seed files in '#{SEED_DIR}'"
+      raise RuntimeError, msg if Dir[SEED_DIR].empty?
     end
 
   end
