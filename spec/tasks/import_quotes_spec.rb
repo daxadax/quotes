@@ -10,21 +10,12 @@ class ImportQuotesSpec < TaskSpec
     ]
   end
   let(:fake_gateway)  { FakeGateway.new }
-  let(:import_quotes)    { Tasks::ImportQuotes.new(files, fake_gateway) }
+  let(:import_quotes) { Tasks::ImportQuotes.new(files, fake_gateway) }
 
   describe "run" do
 
     before do
       import_quotes.run
-    end
-
-    describe 'without a "files" argument' do
-      let(:files) { nil }
-
-      it 'reads input from the seeds directory or renders an error message' do
-        skip
-        assert_equal "error", result
-      end
     end
 
     describe "with no files" do
