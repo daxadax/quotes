@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class GetQuotesSpec < TaskSpec
+class ImportQuotesSpec < TaskSpec
 
   let(:files) do
     [
@@ -10,12 +10,12 @@ class GetQuotesSpec < TaskSpec
     ]
   end
   let(:fake_gateway)  { FakeGateway.new }
-  let(:get_quotes)    { Tasks::GetQuotes.new(files, fake_gateway) }
+  let(:import_quotes)    { Tasks::ImportQuotes.new(files, fake_gateway) }
 
   describe "run" do
 
     before do
-      get_quotes.run
+      import_quotes.run
     end
 
     describe 'without a "files" argument' do

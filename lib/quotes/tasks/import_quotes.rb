@@ -1,21 +1,21 @@
 module Tasks
-  class GetQuotes < Task
+  class ImportQuotes < Task
 
     def initialize(input = nil, gateway = nil)
       input_files = determine_input(input)
       @files      = determine_file_types(input_files)
-      @gateway    = gateway #|| Gateways::QuotesGateway.new
+      @gateway    = gateway || Gateways::QuotesGateway.new
     end
 
     def run
-      quotes = remove_duplicates(get_quotes)
+      quotes = remove_duplicates(import_quotes)
 
       gateway.add quotes
     end
 
     private
 
-    def get_quotes
+    def import_quotes
       files.flat_map do |file_type, file|
         build_quotes(file_type, file)
       end
