@@ -18,7 +18,7 @@ module Services
     def validate(input)
       reason  = "Input missing"
 
-      raise_argument_error(reason, :run) if input.nil? || input.empty?
+      raise_argument_error(reason, input) if input.nil? || input.empty?
     end
 
     def convert_to_excerpts(input)

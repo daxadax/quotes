@@ -19,7 +19,7 @@ module Entities
         value   = eval(param_name)
         reason  = "#{param_name.capitalize} missing"
 
-        raise_argument_error(reason) if value.nil? || value.empty?
+        raise_argument_error(reason, value) if value.nil? || value.empty?
       end
     end
 
@@ -30,6 +30,6 @@ module Entities
         :page_number  => options[:page_number]  || nil
       }
     end
-    
+
   end
 end

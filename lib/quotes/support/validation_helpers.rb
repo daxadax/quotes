@@ -1,19 +1,13 @@
 module Support
   module ValidationHelpers
 
-    def raise_argument_error(reason, action = :build)
-      klass = self.class.name.split('::').last
-      msg = "#{klass} #{action_message(action)}"
+    def raise_argument_error(reason, offender)
+      klass       = self.class.name.split('::').last
+      msg         = "Failure in #{klass}: "
+      inspection  = "\n\nFailing argument:\n#{offender.inspect}"
 
-      raise ArgumentError, msg + reason
+      raise ArgumentError, msg + reason + inspection
     end
 
-    private
-
-    def action_message(action)
-      return "can't be built: " if action == :build
-      return "cannot run: "     if action == :run 
-    end
-    
   end
 end
