@@ -1,6 +1,7 @@
 module Entities
   class Excerpt < Entity
-    attr_reader :id, :author, :title, :content, :source, :tags
+    attr_reader   :author, :title, :content, :source, :tags
+    attr_accessor :id
 
     def initialize(author, title, content, options = {})
       validate(author, title, content)
