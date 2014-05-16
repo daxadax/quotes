@@ -9,26 +9,36 @@ class QuotesGatewaySpec < GatewaySpec
   let(:result)        { gateway.all }
 
   describe "add" do
-    it "validates each excerpt before adding" do
-      excerpts = [23, 24, 25]
+    describe "failure" do
+      it "validates each excerpt before adding" do
+        excerpts = [23, 24, 25]
 
-      assert_failure { gateway.add(excerpts) }
+        assert_failure { gateway.add(excerpts) }
+      end
     end
 
-    it "serializes the given data and saves it to a file" do
-      gateway.add excerpts
+    describe "success" do
+      before { gateway.add excerpts }
 
-      assert_equal 10,                    result.size
-      assert_equal "Author 1",            result.first.author
-      assert_equal "Book 1",              result.first.title
-      assert_equal "Content for Book 1",  result.first.content
-    end
+      it "serializes the given data and saves it to a file" do
+        assert_equal 10,                    result.size
+        assert_equal "Author 1",            result.first.author
+        assert_equal "Book 1",              result.first.title
+        assert_equal "Content for Book 1",  result.first.content
+      end
 
-    it "doesn't create duplications" do
-      gateway.add excerpts
-      gateway.add dup_excerpts
+      it "doesn't create duplications" do
+        gateway.add dup_excerpts
 
-      assert_equal 11,  result.size
+        assert_equal 11,  result.size
+      end
+
+      it "adds a unique id to each quote before adding it to the gateway" do
+        gateway.add dup_excerpts
+        ids = result.map(&:id)
+
+        assert_equal 11, ids.uniq.size
+      end
     end
   end
 
@@ -38,6 +48,10 @@ class QuotesGatewaySpec < GatewaySpec
         assert_empty gateway.all
       end
     end
+  end
+
+  describe "update" do
+
   end
 
   def build_fake_excerpts

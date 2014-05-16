@@ -2,13 +2,14 @@ module Gateways
   class QuotesGateway < Gateway
 
     def initialize(db_file = nil)
-      @db_file = db_file || quotes_db_file
+      @db_file  = db_file || quotes_db_file
+      @uid = determine_last_uid
     end
 
     def add(quotes)
-      ensure_validity(quotes)
+      ensure_validity! quotes
 
-      add_quotes_to_file merge_and_serialize(quotes)
+      add_quotes_to_file quotes
     end
 
     def all
@@ -17,8 +18,12 @@ module Gateways
 
     private
 
-    def add_quotes_to_file(serialized_quotes)
-      persist(serialized_quotes)
+    def add_quotes_to_file(quotes)
+      merged_quotes     = merge quotes
+      quotes_with_uids  = assign_uids merged_quotes
+      serialized_quotes = serialize quotes_with_uids
+
+      persist serialized_quotes
     end
 
     def load_all
@@ -33,24 +38,41 @@ module Gateways
       end
     end
 
-    def merge_and_serialize(quotes)
-      quotes = merge(quotes) if quotes_persisted?
-
+    def serialize(quotes)
       Marshal.dump(quotes)
+    end
+
+    def assign_uids(quotes)
+      quotes.each do |quote|
+        assign_uid(quote) if quote.id.nil?
+      end
     end
 
     def merge(quotes)
       (load_all + quotes).uniq do |quote|
-        quote.content && quote.author && quote.title
+        quote.content
       end
     end
 
-    def ensure_validity(quotes)
+    def assign_uid(quote)
+      quote.id = return_next_id
+    end
+
+    def return_next_id
+      @uid += 1
+    end
+
+    def ensure_validity!(quotes)
       quotes.each do |quote|
         msg = "Only Excerpt entities can be inserted."
 
         raise_argument_error(msg, quote) unless quote.kind_of? Entities::Excerpt
       end
+    end
+
+    def determine_last_uid
+      return load_all.last.id if quotes_persisted?
+      0
     end
 
     def quotes_persisted?
