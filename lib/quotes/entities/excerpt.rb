@@ -1,10 +1,11 @@
 module Entities
   class Excerpt < Entity
-    attr_reader :author, :title, :content, :source, :tags
+    attr_reader :id, :author, :title, :content, :source, :tags
 
     def initialize(author, title, content, options = {})
       validate(author, title, content)
 
+      @id       = nil
       @author   = author
       @title    = title
       @content  = content

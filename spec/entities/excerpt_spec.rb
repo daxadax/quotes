@@ -25,6 +25,10 @@ class ExcerptSpec < Minitest::Spec
       end
     end
 
+    it "sets id as 'nil' on create" do
+      assert_nil excerpt.id
+    end
+
     describe 'without' do
 
       describe 'author' do
@@ -53,7 +57,7 @@ class ExcerptSpec < Minitest::Spec
         }
       end
 
-      it 'with an options hash' do 
+      it 'with an options hash' do
         assert_equal 'free press',  excerpt.source[:publisher]
         assert_equal '1969',        excerpt.source[:year]
         assert_equal '356',         excerpt.source[:page_number]
