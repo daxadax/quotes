@@ -40,7 +40,9 @@ module Gateways
     end
 
     def merge(quotes)
-      (load_all + quotes).uniq { |q| q.content }
+      (load_all + quotes).uniq do |quote|
+        quote.content && quote.author && quote.title
+      end
     end
 
     def ensure_validity(quotes)
