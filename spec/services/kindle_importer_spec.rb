@@ -22,7 +22,7 @@ class KindleImporterSpec < Minitest::Spec
       let(:first_result)  { result[0] }
 
       it 'parses the file into exceprts' do
-        assert_kind_of Entities::Excerpt, first_result
+        assert_kind_of Entities::Quote, first_result
       end
 
       it 'returns an array of objects' do

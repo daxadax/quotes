@@ -40,7 +40,7 @@ module Services
 
       options = build_options(page, tags)
 
-      Entities::Excerpt.new(author, title, content, options)
+      Entities::Quote.new(author, title, content, options)
     end
 
     def build_options(page, tags)

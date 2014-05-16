@@ -24,7 +24,7 @@ class WordpressImporterSpec < Minitest::Spec
       let(:last_result) { result[-1] }
 
       it 'parses the file into exceprts' do
-        assert_kind_of Entities::Excerpt, result_one
+        assert_kind_of Entities::Quote, result_one
       end
 
       it 'returns an array of all the objects' do

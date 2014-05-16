@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-class ExcerptSpec < Minitest::Spec
+class QuoteSpec < Minitest::Spec
   let(:author)  { 'joe' }
   let(:title)   { 'joes book' }
   let(:content) { 'four score and...' }
   let(:options) { {} }
 
-  let(:excerpt) do
-    Entities::Excerpt.new(
+  let(:quote) do
+    Entities::Quote.new(
       author,
       title,
       content,
@@ -17,33 +17,29 @@ class ExcerptSpec < Minitest::Spec
 
   describe 'construction' do
     it 'can be built with three arguments' do
-      assert_equal 'joe',               excerpt.author
-      assert_equal 'joes book',         excerpt.title
-      assert_equal 'four score and...', excerpt.content
-      excerpt.source.each do |key, value|
+      assert_equal 'joe',               quote.author
+      assert_equal 'joes book',         quote.title
+      assert_equal 'four score and...', quote.content
+      quote.source.each do |key, value|
         assert_nil value
       end
-    end
-
-    it "sets id as 'nil' on create" do
-      assert_nil excerpt.id
     end
 
     describe 'without' do
 
       describe 'author' do
         let(:author)  {nil}
-        it('fails')   {assert_failure{excerpt}}
+        it('fails')   {assert_failure{quote}}
       end
 
       describe 'title' do
         let(:title) {nil}
-        it('fails') {assert_failure{excerpt}}
+        it('fails') {assert_failure{quote}}
       end
 
       describe 'content' do
         let(:content) {nil}
-        it('fails')   {assert_failure{excerpt}}
+        it('fails')   {assert_failure{quote}}
       end
 
     end
@@ -58,9 +54,9 @@ class ExcerptSpec < Minitest::Spec
       end
 
       it 'with an options hash' do
-        assert_equal 'free press',  excerpt.source[:publisher]
-        assert_equal '1969',        excerpt.source[:year]
-        assert_equal '356',         excerpt.source[:page_number]
+        assert_equal 'free press',  quote.source[:publisher]
+        assert_equal '1969',        quote.source[:year]
+        assert_equal '356',         quote.source[:page_number]
       end
     end
 
@@ -73,7 +69,7 @@ class ExcerptSpec < Minitest::Spec
       end
 
       it "with an options hash" do
-        assert_equal 3, excerpt.tags.size
+        assert_equal 3, quote.tags.size
       end
     end
 

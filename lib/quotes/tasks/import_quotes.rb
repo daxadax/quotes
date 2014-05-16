@@ -4,13 +4,12 @@ module Tasks
     def initialize(files = nil, gateway = nil)
       input_files = determine_input(files)
       @files      = determine_file_types(input_files)
-      @gateway    = gateway || Gateways::QuotesGateway.new
     end
 
     def run
-      quotes = remove_duplicates(import_quotes)
+      quotes = import_quotes
 
-      gateway.add quotes
+      remove_duplicates quotes
     end
 
     private
@@ -33,10 +32,6 @@ module Tasks
 
     def files
       @files
-    end
-
-    def gateway
-      @gateway
     end
 
   end

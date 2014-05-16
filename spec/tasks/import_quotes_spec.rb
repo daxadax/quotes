@@ -9,14 +9,10 @@ class ImportQuotesSpec < TaskSpec
       File.read("spec/support/sample_wordpress_blog.xml")
     ]
   end
-  let(:fake_gateway)  { FakeGateway.new }
-  let(:import_quotes) { Tasks::ImportQuotes.new(files, fake_gateway) }
+  let(:import_quotes) { Tasks::ImportQuotes.new(files) }
 
   describe "run" do
-
-    before do
-      import_quotes.run
-    end
+    let(:result) { import_quotes.run }
 
     describe "with no files" do
       let(:files) { [] }
@@ -27,35 +23,14 @@ class ImportQuotesSpec < TaskSpec
     end
 
     describe "with input" do
-      it "adds a collection of excerpt entities to the gateway" do
-        assert_kind_of  Entities::Excerpt,  result.first
+      it "returns a collection of quote entities" do
+        assert_kind_of  Array,            result
+        assert_kind_of  Entities::Quote,  result.first
       end
 
       it "does not return duplicates" do
         assert_equal 7, result.size
       end
-    end
-
-  end
-
-  def result
-    @result ||= fake_gateway.all
-  end
-
-  class FakeGateway
-
-    def initialize
-      @memory = []
-    end
-
-    def add(quotes)
-      quotes.each do |quote|
-        @memory << quote
-      end
-    end
-
-    def all
-      @memory
     end
 
   end
