@@ -9,6 +9,7 @@ require 'quotes'
 
 class Minitest::Spec
   include Support::AssertionHelpers
+  include Support::FactoryHelpers
   include Quotes
 
 end
