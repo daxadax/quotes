@@ -19,6 +19,10 @@ module Gateways
       @backend.update(quote)
     end
 
+    def all
+      @backend.all
+    end
+
     private
 
     def ensure_valid!(quote)

@@ -63,6 +63,26 @@ class QuotesGatewaySpec < Minitest::Spec
 
   end
 
+  describe "all" do
+    let(:quote_two)   { build_quote(:author => "someone_else") }
+    let(:quote_three) { build_quote(:author => "another_one") }
+    let(:quotes)      { [quote, quote_two, quote_three] }
+
+    it "returns an empty array if the backend is empty" do
+      assert_empty gateway.all
+    end
+
+    it "returns all items in the backend" do
+      quotes.each {|q| gateway.add(q)}
+      result = gateway.all
+
+      assert_equal 3,               result.size
+      assert_equal "Author",        result[0].author
+      assert_equal "someone_else",  result[1].author
+      assert_equal "another_one",   result[2].author
+    end
+  end
+
   class FakeBackend
 
     def initialize
@@ -86,6 +106,10 @@ class QuotesGatewaySpec < Minitest::Spec
 
       @memory.delete_if {|q| q.id == quote.id}
       @memory << quote
+    end
+
+    def all
+      @memory
     end
 
   end
