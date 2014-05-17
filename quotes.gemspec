@@ -19,6 +19,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "kindleclippings",  "~>1.3.3"
   spec.add_dependency "nokogiri",         "~>1.6.1"
+  spec.add_dependency "sqlite3",          "~>1.3.9"
+  spec.add_dependency "sequel",           "~>4.10.0"
 
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake"
