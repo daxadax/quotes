@@ -33,7 +33,6 @@ class QuotesGatewaySpec < Minitest::Spec
       quote_id  = add_quote
       result    = gateway.get(quote_id)
 
-      assert_equal result,          quote
       assert_equal result.author,   quote.author
       assert_equal result.title,    quote.title
       assert_equal result.content,  quote.content
@@ -90,21 +89,19 @@ class QuotesGatewaySpec < Minitest::Spec
     end
 
     def insert(quote)
-      quote.id = 'test_quote_id'
+      quote[:id] = 'test_quote_id'
 
       @memory << quote
 
-      quote.id
+      quote[:id]
     end
 
     def get(id)
-      @memory.select{ |q| q.id == id}.first
+      @memory.select{ |q| q[:id] == id}.first
     end
 
     def update(quote)
-      return nil if quote.id.nil?
-
-      @memory.delete_if {|q| q.id == quote.id}
+      @memory.delete_if {|q| q[:id] == quote[:id]}
       @memory << quote
     end
 
