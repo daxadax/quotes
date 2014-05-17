@@ -1,6 +1,7 @@
 module Entities
   class Quote < Entity
     attr_reader   :author, :title, :content, :source, :tags
+    attr_accessor :id
 
     def initialize(author, title, content, options = {})
       validate(author, title, content)
@@ -9,7 +10,8 @@ module Entities
       @title    = title
       @content  = content
       @source   = build_source(options)
-      @tags     = options[:tags] || nil
+      @tags     = options[:tags]  || []
+      @id       = options[:id]    || nil
     end
 
     private

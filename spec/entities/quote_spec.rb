@@ -7,12 +7,7 @@ class QuoteSpec < Minitest::Spec
   let(:options) { {} }
 
   let(:quote) do
-    Entities::Quote.new(
-      author,
-      title,
-      content,
-      options
-    )
+    Entities::Quote.new(author, title, content, options)
   end
 
   describe 'construction' do
@@ -23,6 +18,14 @@ class QuoteSpec < Minitest::Spec
       quote.source.each do |key, value|
         assert_nil value
       end
+    end
+
+    it "has sane defaults for non-required arguments" do
+        assert_nil    quote.id
+        assert_nil    quote.source[:publisher]
+        assert_nil    quote.source[:year]
+        assert_nil    quote.source[:page_number]
+        assert_empty  quote.tags
     end
 
     describe 'without' do
@@ -60,7 +63,7 @@ class QuoteSpec < Minitest::Spec
       end
     end
 
-    describe 'can build tags' do
+    describe 'tags' do
       let(:tags) { ['tag_one', 'tag_two', 'tag_three'] }
       let(:options) do
         {
@@ -68,7 +71,7 @@ class QuoteSpec < Minitest::Spec
         }
       end
 
-      it "with an options hash" do
+      it "can be built with an options hash" do
         assert_equal 3, quote.tags.size
       end
     end
