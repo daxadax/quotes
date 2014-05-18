@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class ImportQuotesSpec < TaskSpec
+class ImportQuotesSpec < BackendSpec
 
   let(:files) do
     [
@@ -23,9 +23,15 @@ class ImportQuotesSpec < TaskSpec
     end
 
     describe "with input" do
-      it "returns a collection of quote entities" do
-        assert_kind_of  Array,            result
-        assert_kind_of  Entities::Quote,  result.first
+      let(:result) { Gateways::QuotesGateway.new.all }
+      before       { import_quotes.run }
+
+      it "adds all quote entities to the gateway" do
+        assert_kind_of  Array,                result
+        assert_kind_of  Entities::Quote,      result.last
+        assert_equal    'Erich Neumann',      result.last.author
+        assert_includes result.last.content,  'archetypal stages'
+        assert_equal    'archetypes',         result.last.tags.first
       end
 
       it "does not return duplicates" do

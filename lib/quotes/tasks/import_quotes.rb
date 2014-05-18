@@ -1,15 +1,17 @@
 module Tasks
   class ImportQuotes < Task
 
-    def initialize(files = nil, gateway = nil)
+    def initialize(files = nil)
       input_files = determine_input(files)
       @files      = determine_file_types(input_files)
+      @gateway    = Gateways::QuotesGateway.new
     end
 
     def run
-      quotes = import_quotes
+      quotes        = import_quotes
+      unique_quotes = remove_duplicates quotes
 
-      remove_duplicates quotes
+      add_to_gateway unique_quotes
     end
 
     private
@@ -28,6 +30,12 @@ module Tasks
 
     def remove_duplicates(quotes)
       quotes.uniq { |quote| quote.content }
+    end
+
+    def add_to_gateway(quotes)
+      quotes.each do |quote|
+        @gateway.add(quote)
+      end
     end
 
     def files
