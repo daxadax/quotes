@@ -23,14 +23,14 @@ module Support
         :publisher    => options[:publisher]    || nil,
         :year         => options[:year]         || nil,
         :page_number  => options[:page_number]  || nil,
-        :tags         => build_tags,
+        :tags         => build_tags(options),
         :id           => options[:id]           || nil
       }
     end
 
     private
 
-    def build_tags
+    def build_tags(options)
       tags = options[:tags] || []
 
       JSON.dump(tags)
