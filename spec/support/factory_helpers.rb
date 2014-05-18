@@ -1,3 +1,5 @@
+require 'json'
+
 module Support
   module FactoryHelpers
 
@@ -15,13 +17,23 @@ module Support
       content = options[:content] || 'Content'
 
       {
-        :author   => author,
-        :title    => title,
-        :content  => content,
-        :source   => options[:source] || nil,
-        :tags     => options[:tags]   || [],
-        :id       => options[:id]     || nil
+        :author       => author,
+        :title        => title,
+        :content      => content,
+        :publisher    => options[:publisher]    || nil,
+        :year         => options[:year]         || nil,
+        :page_number  => options[:page_number]  || nil,
+        :tags         => build_tags,
+        :id           => options[:id]           || nil
       }
+    end
+
+    private
+
+    def build_tags
+      tags = options[:tags] || []
+
+      JSON.dump(tags)
     end
 
   end
