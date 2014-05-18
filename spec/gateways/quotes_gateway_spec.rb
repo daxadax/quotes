@@ -47,8 +47,10 @@ class QuotesGatewaySpec < Minitest::Spec
 
   describe "update" do
 
-    it "returns nil without a persisted object" do
-      assert_nil gateway.update(quote)
+    describe "without a persisted object" do
+      it "fails" do
+        assert_failure { gateway.update(quote) }
+      end
     end
 
     it "updates any changed attributes" do

@@ -16,7 +16,7 @@ module Gateways
     end
 
     def update(quote)
-      return nil if quote.id.nil?
+      ensure_persisted!(quote)
 
       @backend.update(serialized(quote))
     end
@@ -54,6 +54,12 @@ module Gateways
       reason = "Quotes can't be added twice. Use #update instead"
 
       raise_argument_error(reason, quote) unless quote.id.nil?
+    end
+
+    def ensure_persisted!(quote)
+      reason = "Quotes must exist to update them. Use #insert instead"
+
+      raise_argument_error(reason, quote) if quote.id.nil?
     end
 
     class QuoteMarshal
