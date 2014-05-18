@@ -37,6 +37,11 @@ module Gateways
       QuoteMarshal.load(quote)
     end
 
+    def ensure_valid!(quote)
+      ensure_kind_of!(quote)
+      ensure_not_persisted!(quote)
+    end
+
     def ensure_kind_of!(quote)
       reason = "Only Quote entities can be added"
 
@@ -61,7 +66,7 @@ module Gateways
           :publisher    => quote.source[:publisher],
           :year         => quote.source[:year],
           :page_number  => quote.source[:page_number],
-          :tags         => quote.tags,
+          :tags         => JSON.dump(quote.tags),
           :id           => quote.id
         }
       end
@@ -76,7 +81,7 @@ module Gateways
           :publisher    => quote[:publisher],
           :year         => quote[:year],
           :page_number  => quote[:page_number],
-          :tags         => quote[:tags],
+          :tags         => JSON.parse(quote[:tags]),
           :id           => quote[:id]
         }
 
