@@ -3,6 +3,7 @@ require 'sequel'
 
 module Gateways
   class Backend
+    include Support::ValidationHelpers
 
     def initialize
       @database = retrieve_database
