@@ -55,12 +55,14 @@ module Gateways
 
       def self.dump(quote)
         {
-          :author   => quote.author,
-          :title    => quote.title,
-          :content  => quote.content,
-          :source   => quote.source,
-          :tags     => quote.tags,
-          :id       => quote.id
+          :author       => quote.author,
+          :title        => quote.title,
+          :content      => quote.content,
+          :publisher    => quote.source[:publisher],
+          :year         => quote.source[:year],
+          :page_number  => quote.source[:page_number],
+          :tags         => quote.tags,
+          :id           => quote.id
         }
       end
 
@@ -71,9 +73,9 @@ module Gateways
         title   = quote[:title]
         content = quote[:content]
         options = {
-          :publisher    => quote[:source][:publisher],
-          :year         => quote[:source][:year],
-          :page_number  => quote[:source][:page_number],
+          :publisher    => quote[:publisher],
+          :year         => quote[:year],
+          :page_number  => quote[:page_number],
           :tags         => quote[:tags],
           :id           => quote[:id]
         }
