@@ -8,9 +8,16 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
+desc "Import quotes"
+task :import_quotes do
+  puts "Importing quotes"
+  Tasks::ImportQuotes.new.run
+  puts "Quotes imported successfully"
+end
+
 namespace :db do
   desc "Run migrations"
-  task :migrate do |t, args|
+  task :migrate do
     require "sequel"
     Sequel.extension :migration
 
