@@ -1,17 +1,19 @@
 module Entities
   class Quote < Entity
-    attr_reader   :author, :title, :content, :source, :tags
-    attr_accessor :id
+    attr_reader   :author, :title, :content
+    attr_accessor :id, :publisher, :year, :page_number, :tags
 
     def initialize(author, title, content, options = {})
       validate(author, title, content)
 
-      @author   = author
-      @title    = title
-      @content  = content
-      @source   = build_source(options)
-      @tags     = options[:tags]  || []
-      @id       = options[:id]    || nil
+      @author       = author
+      @title        = title
+      @content      = content
+      @publisher    = options[:publisher]   || nil
+      @year         = options[:year]        || nil
+      @page_number  = options[:page_number] || nil
+      @tags         = options[:tags]        || []
+      @id           = options[:id]          || nil
     end
 
     private
@@ -23,14 +25,6 @@ module Entities
 
         raise_argument_error(reason, value) if value.nil? || value.empty?
       end
-    end
-
-    def build_source(options)
-      {
-        :publisher    => options[:publisher]    || nil,
-        :year         => options[:year]         || nil,
-        :page_number  => options[:page_number]  || nil
-      }
     end
 
   end

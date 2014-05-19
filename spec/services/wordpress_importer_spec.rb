@@ -50,9 +50,9 @@ class WordpressImporterSpec < Minitest::Spec
         assert_equal 5,                         result_two.tags.size
         assert_equal 3,                         last_result.tags.size
 
-        assert_equal "555",                     result_one.source[:page_number]
-        assert_equal "511",                     result_two.source[:page_number]
-        assert_equal "xvii",                    last_result.source[:page_number]
+        assert_equal "555",                     result_one.page_number
+        assert_equal "511",                     result_two.page_number
+        assert_equal "xvii",                    last_result.page_number
       end
 
     end

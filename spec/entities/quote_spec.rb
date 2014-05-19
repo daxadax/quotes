@@ -15,16 +15,13 @@ class QuoteSpec < Minitest::Spec
       assert_equal 'joe',               quote.author
       assert_equal 'joes book',         quote.title
       assert_equal 'four score and...', quote.content
-      quote.source.each do |key, value|
-        assert_nil value
-      end
     end
 
     it "has sane defaults for non-required arguments" do
       assert_nil    quote.id
-      assert_nil    quote.source[:publisher]
-      assert_nil    quote.source[:year]
-      assert_nil    quote.source[:page_number]
+      assert_nil    quote.publisher
+      assert_nil    quote.year
+      assert_nil    quote.page_number
       assert_empty  quote.tags
     end
 
@@ -47,7 +44,7 @@ class QuoteSpec < Minitest::Spec
 
     end
 
-    describe 'can build a source' do
+    describe 'can build a other attributes' do
       let(:options) do
         {
           :publisher    => 'free press',
@@ -57,9 +54,9 @@ class QuoteSpec < Minitest::Spec
       end
 
       it 'with an options hash' do
-        assert_equal 'free press',  quote.source[:publisher]
-        assert_equal '1969',        quote.source[:year]
-        assert_equal '356',         quote.source[:page_number]
+        assert_equal 'free press',  quote.publisher
+        assert_equal '1969',        quote.year
+        assert_equal '356',         quote.page_number
       end
     end
 
@@ -73,6 +70,21 @@ class QuoteSpec < Minitest::Spec
 
       it "can be built with an options hash" do
         assert_equal 3, quote.tags.size
+      end
+
+      it "can be updated" do
+        new_tags = %w[some new tags]
+        quote.tags = quote.tags + new_tags
+
+        assert_equal 6, quote.tags.count
+      end
+    end
+
+    describe "updating attributes" do
+      it "is possible" do
+        quote.publisher = "a more correct publisher"
+
+        assert_equal 'a more correct publisher', quote.publisher
       end
     end
 

@@ -69,9 +69,9 @@ module Gateways
           :author       => quote.author,
           :title        => quote.title,
           :content      => quote.content,
-          :publisher    => quote.source[:publisher],
-          :year         => quote.source[:year],
-          :page_number  => quote.source[:page_number],
+          :publisher    => quote.publisher,
+          :year         => quote.year,
+          :page_number  => quote.page_number,
           :tags         => JSON.dump(quote.tags),
           :id           => quote.id
         }
