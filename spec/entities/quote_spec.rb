@@ -21,11 +21,11 @@ class QuoteSpec < Minitest::Spec
     end
 
     it "has sane defaults for non-required arguments" do
-        assert_nil    quote.id
-        assert_nil    quote.source[:publisher]
-        assert_nil    quote.source[:year]
-        assert_nil    quote.source[:page_number]
-        assert_empty  quote.tags
+      assert_nil    quote.id
+      assert_nil    quote.source[:publisher]
+      assert_nil    quote.source[:year]
+      assert_nil    quote.source[:page_number]
+      assert_empty  quote.tags
     end
 
     describe 'without' do
