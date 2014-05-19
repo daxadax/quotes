@@ -19,7 +19,7 @@ module Gateways
     def update(quote)
       ensure_persisted!(quote)
 
-      @table.update(quote)
+      @table.where(:id => quote[:id]).update(quote)
     end
 
     def all
