@@ -1,4 +1,6 @@
 Dir.glob('./lib/quotes/services/*.rb') { |f| require f }
 
-module Services
+module Quotes
+  module Services
+  end
 end

@@ -8,7 +8,7 @@ module Support
       title   = options[:title]   || 'Title'
       content = options[:content] || 'Content'
 
-      Entities::Quote.new(author, title, content, options)
+      Quotes::Entities::Quote.new(author, title, content, options)
     end
 
     def build_serialized_quote(options = {})

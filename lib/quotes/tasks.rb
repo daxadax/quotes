@@ -1,5 +1,7 @@
 require 'quotes/tasks/task'
 Dir.glob('./lib/quotes/tasks/*.rb') { |f| require f }
 
-module Tasks
+module Quotes
+  module Tasks
+  end
 end

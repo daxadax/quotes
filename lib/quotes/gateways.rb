@@ -1,6 +1,11 @@
 require 'quotes/gateways/gateway'
 require 'quotes/gateways/backend'
-Dir.glob('./lib/quotes/gateways/*.rb') { |f| require f }
 
-module Gateways
+require 'quotes/gateways/quotes_gateway'
+require 'quotes/gateways/quotes_gateway_backend'
+
+
+module Quotes
+  module Gateways
+  end
 end

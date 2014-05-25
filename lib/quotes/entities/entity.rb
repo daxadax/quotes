@@ -1,6 +1,8 @@
-module Entities
-  class Entity
-    include Support::ValidationHelpers
+module Quotes
+  module Entities
+    class Entity
+      include Support::ValidationHelpers
 
+    end
   end
 end

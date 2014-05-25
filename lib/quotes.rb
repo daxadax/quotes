@@ -1,12 +1,12 @@
 require "quotes/version"
 
 # require all support files
-Dir.glob('./lib/quotes/support/*.rb')  { |f| require f }
+require_relative "quotes/support/validation_helpers"
 
-require "quotes/entities"
-require "quotes/services"
-require "quotes/gateways"
-require "quotes/tasks"
+require_relative "quotes/entities"
+require_relative "quotes/services"
+require_relative "quotes/gateways"
+require_relative "quotes/tasks"
 
 module Quotes
 end
