@@ -14,9 +14,9 @@ module Quotes
 
       def retrieve_database
         if ENV['test']
-          database = Sequel.connect('sqlite://quotes-test.db')
+          Sequel.connect('sqlite://quotes-test.db')
         else
-          database = Sequel.connect('sqlite://quotes-development.db')
+          Sequel.sqlite('/home/dd/programming/quotes/quotes_backend/quotes-development.db')
         end
       end
     end
