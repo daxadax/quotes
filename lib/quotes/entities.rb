@@ -1,4 +1,5 @@
-Dir.glob('./lib/quotes/entities/*.rb') { |f| require f }
+require 'quotes/entities/entity'
+require 'quotes/entities/quote'
 
 module Quotes
   module Entities
