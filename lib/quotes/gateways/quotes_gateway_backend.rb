@@ -17,6 +17,10 @@ module Quotes
         @table.first(:id => id)
       end
 
+      def get_by_tag(tag)
+        @table.all.select { |q| q[:tags].include?(tag)}
+      end
+
       def update(quote)
         ensure_persisted!(quote)
 

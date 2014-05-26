@@ -44,6 +44,29 @@ class QuotesGatewayBackendSpec < BackendSpec
     end
   end
 
+  describe "get_by_tag" do
+    let(:another_quote_with_tags) do
+      build_serialized_quote(:tags => ['a', 'd', 'f'])
+    end
+
+    before do
+      backend.insert(quote_with_tags)
+      backend.insert(another_quote_with_tags)
+    end
+
+    it "returns an empty array if no tags are found" do
+      assert_empty backend.get_by_tag('not a tag')
+    end
+
+    it "returns all quotes that have the given tag" do
+      result = backend.get_by_tag('a')
+
+      assert_equal 2, result.size
+      assert_equal quote_with_tags[:tags],          result[0][:tags]
+      assert_equal another_quote_with_tags[:tags],  result[1][:tags]
+    end
+  end
+
   describe "update" do
     describe "without a persisted quote" do
       it "fails" do
