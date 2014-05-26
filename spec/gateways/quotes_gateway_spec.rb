@@ -45,6 +45,30 @@ class QuotesGatewaySpec < Minitest::Spec
     end
   end
 
+  describe "get_by_tag" do
+    let(:quote_one) { build_quote(:tags => ['omg', 'lol', 'srsly']) }
+    let(:quote_two) { build_quote(:tags => ['omg', 'stfu']) }
+    let(:quotes)    { [quote_one, quote_two] }
+
+    before do
+      quotes.each {|q| gateway.add(q)}
+    end
+
+    it "returns an empty array if their are no quotes for the tag" do
+      result = gateway.get_by_tag('wtf')
+
+      assert_empty result
+    end
+
+    it "returns an array quotes with matching tags" do
+      result = gateway.get_by_tag('omg')
+
+      assert_equal 2,                       result.size
+      assert_equal ['omg', 'lol', 'srsly'], result[0].tags
+      assert_equal ['omg', 'stfu'],         result[1].tags
+    end
+  end
+
   describe "update" do
 
     describe "without a persisted object" do
@@ -99,7 +123,11 @@ class QuotesGatewaySpec < Minitest::Spec
     end
 
     def get(id)
-      @memory.select{ |q| q[:id] == id}.first
+      @memory.select{|q| q[:id] == id}.first
+    end
+
+    def get_by_tag(tag)
+      @memory.select{|q| q[:tags].include?(tag)}
     end
 
     def update(quote)
