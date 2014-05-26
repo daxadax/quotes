@@ -16,12 +16,6 @@ module Quotes
         deserialize(@backend.get(id))
       end
 
-      def get_by_tag(tag)
-        @backend.get_by_tag(tag).map do |quote|
-          deserialize(quote)
-        end
-      end
-
       def update(quote)
         ensure_persisted!(quote)
 
