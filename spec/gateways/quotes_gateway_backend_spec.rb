@@ -77,6 +77,24 @@ class QuotesGatewayBackendSpec < BackendSpec
     end
   end
 
+  describe "delete" do
+    it "removes the quote associated with the given id" do
+      backend.insert(quote)
+      backend.delete(1)
+
+      assert_nil backend.get(1)
+    end
+
+    it "doesn't remove other quotes" do
+      backend.insert(quote)
+      backend.insert(quote_with_tags)
+      backend.delete(1)
+
+      assert_nil    backend.get(1)
+      assert_equal  backend.get(2), quote_with_tags.merge({:id => 2})
+    end
+  end
+
   def assert_storage(actual)
     assert_equal quote_with_tags[:author],      actual[:author]
     assert_equal quote_with_tags[:title],       actual[:title]

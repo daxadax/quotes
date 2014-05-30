@@ -84,6 +84,21 @@ class QuotesGatewaySpec < Minitest::Spec
     end
   end
 
+  describe "delete" do
+    describe "without a persisted object" do
+      it "fails" do
+        assert_failure { gateway.delete(quote.id) }
+      end
+    end
+
+    it "removes the quote associated with the given id" do
+      id = gateway.add(quote)
+      gateway.delete(id)
+
+      assert_nil gateway.get(id)
+    end
+  end
+
   class FakeBackend
 
     def initialize
@@ -109,6 +124,10 @@ class QuotesGatewaySpec < Minitest::Spec
 
     def all
       @memory
+    end
+
+    def delete(id)
+      @memory.delete_if {|q| q[:id] == id}
     end
 
   end

@@ -17,7 +17,7 @@ module Quotes
       end
 
       def update(quote)
-        ensure_persisted!(quote)
+        ensure_persisted!(quote.id, 'update')
 
         @backend.update(serialized(quote))
       end
@@ -26,6 +26,12 @@ module Quotes
         @backend.all.map do |quote|
           deserialize(quote)
         end
+      end
+
+      def delete(id)
+        ensure_persisted!(id, 'delete')
+
+        @backend.delete(id)
       end
 
       private
@@ -57,10 +63,10 @@ module Quotes
         raise_argument_error(reason, quote) unless quote.id.nil?
       end
 
-      def ensure_persisted!(quote)
-        reason = "Quotes must exist to update them. Use #insert instead"
+      def ensure_persisted!(id, action)
+        reason = "You tried to #{action} a quote, but it doesn't exist"
 
-        raise_argument_error(reason, quote) if quote.id.nil?
+        raise_argument_error(reason, 'None.  ID is nil') if id.nil?
       end
 
       class QuoteMarshal

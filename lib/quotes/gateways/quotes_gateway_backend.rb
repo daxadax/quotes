@@ -27,6 +27,10 @@ module Quotes
         @table.all
       end
 
+      def delete(id)
+        @table.where(:id => id).delete
+      end
+
       private
 
       def ensure_valid!(quote)
