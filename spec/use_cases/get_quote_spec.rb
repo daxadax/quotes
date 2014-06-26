@@ -3,7 +3,8 @@ require 'spec_helper'
 class GetQuoteSpec < UseCaseSpec
 
   let(:quote_id)    { create_quote }
-  let(:use_case)    { UseCases::GetQuote.new(quote_id) }
+  let(:input)       { {:id => quote_id} }
+  let(:use_case)    { UseCases::GetQuote.new(input) }
 
   describe "call" do
     let(:result) { use_case.call }

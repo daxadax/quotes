@@ -2,10 +2,10 @@ module Quotes
   module UseCases
     class GetQuote < UseCase
 
-      def initialize(id)
-        ensure_valid_input!(id)
+      def initialize(input)
+        ensure_valid_input!(input[:id])
 
-        @id = id
+        @id = input[:id]
       end
 
       def call
