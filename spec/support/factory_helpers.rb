@@ -3,6 +3,13 @@ require 'json'
 module Support
   module FactoryHelpers
 
+    def create_quote(options = {})
+      quote   = build_quote(options)
+      gateway = Quotes::Gateways::QuotesGateway.new
+
+      gateway.add quote
+    end
+
     def build_quote(options = {})
       author  = options[:author]  || 'Author'
       title   = options[:title]   || 'Title'
