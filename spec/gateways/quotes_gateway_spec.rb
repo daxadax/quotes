@@ -37,6 +37,21 @@ class QuotesGatewaySpec < Minitest::Spec
       assert_equal result.title,    quote.title
       assert_equal result.content,  quote.content
     end
+
+    describe "with tags" do
+      let(:tags)  { ['UPCASE', 'CraZYcASe', 'downcase'] }
+      let(:quote) { build_quote(:tags => tags) }
+
+      it "normalizes tags before storing them" do
+        quote_id  = add_quote
+        result    = gateway.get(quote_id)
+
+        refute_equal tags,        result.tags
+        assert_equal 'upcase',    result.tags[0]
+        assert_equal 'crazycase', result.tags[1]
+        assert_equal 'downcase',  result.tags[2]
+      end
+    end
   end
 
   describe "get" do

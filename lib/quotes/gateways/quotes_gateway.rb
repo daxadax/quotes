@@ -72,6 +72,8 @@ module Quotes
       class QuoteMarshal
 
         def self.dump(quote)
+          tags = quote.tags.map(&:downcase)
+
           {
             :author       => quote.author,
             :title        => quote.title,
@@ -79,7 +81,7 @@ module Quotes
             :publisher    => quote.publisher,
             :year         => quote.year,
             :page_number  => quote.page_number,
-            :tags         => JSON.dump(quote.tags),
+            :tags         => JSON.dump(tags),
             :id           => quote.id
           }
         end
