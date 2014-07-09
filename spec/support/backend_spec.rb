@@ -11,7 +11,7 @@ class BackendSpec < Minitest::Spec
   def run_migrations
     Sequel.extension :migration
 
-    Sequel::Migrator.apply(database, "./lib/db_migrations")
+    Sequel::Migrator.apply(database, "./lib/db_migrations/")
   end
 
   def reset_test_database

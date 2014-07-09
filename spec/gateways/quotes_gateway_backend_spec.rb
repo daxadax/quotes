@@ -102,7 +102,9 @@ class QuotesGatewayBackendSpec < BackendSpec
     assert_equal quote_with_tags[:publisher],   actual[:publisher]
     assert_equal quote_with_tags[:year],        actual[:year]
     assert_equal quote_with_tags[:page_number], actual[:page_number]
+    assert_equal quote_with_tags[:starred],     actual[:starred]
     assert_equal quote_with_tags[:tags],        actual[:tags]
+    assert_equal quote_with_tags[:links],       actual[:links]
   end
 
 end
