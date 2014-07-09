@@ -27,11 +27,13 @@ module Support
         :author       => author,
         :title        => title,
         :content      => content,
+        :id           => options[:id]           || nil,
         :publisher    => options[:publisher]    || nil,
         :year         => options[:year]         || nil,
         :page_number  => options[:page_number]  || nil,
+        :starred      => options[:starred]      || false,
         :tags         => build_tags(options),
-        :id           => options[:id]           || nil
+        :links        => build_links(options)
       }
     end
 
@@ -40,7 +42,17 @@ module Support
     def build_tags(options)
       tags = options[:tags] || []
 
-      JSON.dump(tags)
+      dump(tags)
+    end
+
+    def build_links(options)
+      links = options[:links] || []
+
+      dump(links)
+    end
+
+    def dump(obj)
+      JSON.dump(obj)
     end
 
   end
