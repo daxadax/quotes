@@ -2,7 +2,6 @@ Sequel.migration do
   up do
     add_column :quotes, :starred, TrueClass
     add_column :quotes, :links,   String, :text => true
-
   end
 
   down do
