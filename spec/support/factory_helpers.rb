@@ -7,7 +7,8 @@ module Support
       quote   = build_quote(options)
       gateway = Quotes::Gateways::QuotesGateway.new
 
-      gateway.add quote
+      id = gateway.add quote
+      gateway.get id
     end
 
     def build_quote(options = {})
