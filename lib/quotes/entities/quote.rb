@@ -2,7 +2,8 @@ module Quotes
   module Entities
     class Quote < Entity
       attr_accessor :author, :title, :content, :id, :publisher, :year,
-                    :page_number, :tags
+                    :page_number, :starred, :tags
+      attr_reader   :links
 
       def initialize(author, title, content, options = {})
         validate(author, title, content)
@@ -10,11 +11,21 @@ module Quotes
         @author       = author
         @title        = title
         @content      = content
+        @id           = options[:id]          || nil
         @publisher    = options[:publisher]   || nil
         @year         = options[:year]        || nil
         @page_number  = options[:page_number] || nil
+        @starred      = options[:starred]     || false
         @tags         = options[:tags]        || []
-        @id           = options[:id]          || nil
+        @links        = options[:links]       || []
+      end
+
+      def update_links(link)
+        if @links.include?(link)
+          @links.delete(link)
+        else
+          @links.push(link)
+        end
       end
 
       private

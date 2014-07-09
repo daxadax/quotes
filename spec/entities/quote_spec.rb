@@ -22,7 +22,9 @@ class QuoteSpec < Minitest::Spec
       assert_nil    quote.publisher
       assert_nil    quote.year
       assert_nil    quote.page_number
+      refute        quote.starred
       assert_empty  quote.tags
+      assert_empty  quote.links
     end
 
     describe 'without' do
@@ -49,7 +51,8 @@ class QuoteSpec < Minitest::Spec
         {
           :publisher    => 'free press',
           :year         => '1969',
-          :page_number  => '356'
+          :page_number  => '356',
+          :starred      => true
         }
       end
 
@@ -77,6 +80,39 @@ class QuoteSpec < Minitest::Spec
         quote.tags = quote.tags + new_tags
 
         assert_equal 6, quote.tags.count
+      end
+    end
+
+    describe "links" do
+      let(:links) { [23, 666, 17] }
+      let(:options) do
+        {
+          :links => links
+        }
+      end
+
+      it "can be built with an options hash" do
+        assert_equal 3, quote.links.size
+      end
+
+      describe "updating" do
+        let(:new_link)      { 113 }
+        let(:existing_link) { links.first }
+
+        it "can add links" do
+          quote.update_links(new_link)
+
+          assert_equal 4, quote.links.size
+          assert_includes quote.links, new_link
+        end
+
+        it "can remove links" do
+          quote.update_links(existing_link)
+
+          assert_equal 2, quote.links.size
+          refute_includes quote.links, existing_link
+        end
+
       end
     end
 
