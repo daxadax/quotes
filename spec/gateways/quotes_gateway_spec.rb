@@ -6,7 +6,12 @@ class QuotesGatewaySpec < Minitest::Spec
   let(:gateway)   { Gateways::QuotesGateway.new(backend) }
   let(:quote)     { build_quote }
   let(:updated_quote) do
-    build_quote(:author => "New Author", :id => "test_quote_id")
+    build_quote(
+      :author     => "New Author",
+      :id         => "test_quote_id",
+      :starred    => true,
+      :links      => [24, 36]
+    )
   end
   let(:add_quote) { gateway.add(quote) }
 
@@ -74,7 +79,13 @@ class QuotesGatewaySpec < Minitest::Spec
       result = gateway.get(quote_id)
 
       refute_equal quote,         result
+      assert_equal quote_id,      result.id
       assert_equal 'New Author',  result.author
+      assert_equal quote.title,   result.title
+      assert_equal quote.content, result.content
+      assert_equal true,          result.starred
+      assert_equal quote.tags,    result.tags
+      assert_equal [24, 36],      result.links
     end
 
   end

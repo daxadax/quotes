@@ -75,14 +75,16 @@ module Quotes
           tags = quote.tags.map(&:downcase)
 
           {
+            :id           => quote.id,
             :author       => quote.author,
             :title        => quote.title,
             :content      => quote.content,
             :publisher    => quote.publisher,
             :year         => quote.year,
             :page_number  => quote.page_number,
+            :starred      => quote.starred,
             :tags         => JSON.dump(tags),
-            :id           => quote.id
+            :links        => JSON.dump(quote.links)
           }
         end
 
@@ -93,11 +95,13 @@ module Quotes
           title   = quote[:title]
           content = quote[:content]
           options = {
+            :id           => quote[:id],
             :publisher    => quote[:publisher],
             :year         => quote[:year],
             :page_number  => quote[:page_number],
+            :starred      => quote[:starred],
             :tags         => JSON.parse(quote[:tags]),
-            :id           => quote[:id]
+            :links        => JSON.parse(quote[:links])
           }
 
           Entities::Quote.new(author, title, content, options)
