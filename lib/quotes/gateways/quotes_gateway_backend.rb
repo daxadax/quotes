@@ -31,6 +31,12 @@ module Quotes
         @table.where(:id => id).delete
       end
 
+      def toggle_star(id)
+        quote = @table.where(:id => id)
+
+        quote.update(:starred => !quote[:starred])
+      end
+
       private
 
       def ensure_valid!(quote)

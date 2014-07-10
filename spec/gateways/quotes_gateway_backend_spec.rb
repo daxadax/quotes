@@ -95,6 +95,18 @@ class QuotesGatewayBackendSpec < BackendSpec
     end
   end
 
+  describe "toggle_star" do
+    it "adds or removes starred status" do
+      id = backend.insert(quote)
+
+      backend.toggle_star(id)
+      assert_equal true, backend.get(id)[:starred]
+
+      backend.toggle_star(id)
+      assert_equal false, backend.get(id)[:starred]
+    end
+  end
+
   def assert_storage(actual)
     assert_equal quote_with_tags[:author],      actual[:author]
     assert_equal quote_with_tags[:title],       actual[:title]
