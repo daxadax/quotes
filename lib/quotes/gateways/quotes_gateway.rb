@@ -34,6 +34,12 @@ module Quotes
         @backend.delete(id)
       end
 
+      def toggle_star(id)
+        ensure_persisted!(id, 'toggle the star status of')
+
+        @backend.toggle_star(id)
+      end
+
       private
 
       def serialized(quote)

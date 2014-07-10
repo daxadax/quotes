@@ -125,6 +125,24 @@ class QuotesGatewaySpec < Minitest::Spec
     end
   end
 
+  describe "toggle_star" do
+    describe "without a persisted object" do
+      it "fails" do
+        assert_failure { gateway.toggle_star(quote.id) }
+      end
+    end
+
+    it "adds or removes 'starred' status" do
+      id = gateway.add(quote)
+
+      gateway.toggle_star(id)
+      assert_equal true, gateway.get(id).starred
+
+      gateway.toggle_star(id)
+      assert_equal false, gateway.get(id).starred
+    end
+  end
+
   class FakeBackend
 
     def initialize
@@ -154,6 +172,13 @@ class QuotesGatewaySpec < Minitest::Spec
 
     def delete(id)
       @memory.delete_if {|q| q[:id] == id}
+    end
+
+    def toggle_star(id)
+      quote = get(id)
+      quote[:starred] == true ? quote[:starred] = false : quote[:starred] = true
+
+      update quote
     end
 
   end
