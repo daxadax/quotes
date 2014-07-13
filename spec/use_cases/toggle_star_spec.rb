@@ -25,12 +25,9 @@ class ToggleStarSpec < UseCaseSpec
 
     it "toggles 'starred' for the given quote" do
       assert_equal false, quote.starred
-      assert_equal true,  starred_quote.starred
-
       use_case.call
 
-      assert_equal true,  quote.starred
-      assert_equal false, starred_quote.starred
+      assert_equal true,  updated_quote.starred
     end
   end
 
