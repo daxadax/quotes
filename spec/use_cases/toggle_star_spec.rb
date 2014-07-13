@@ -3,9 +3,7 @@ require 'spec_helper'
 class ToggleStarSpec < UseCaseSpec
 
   let(:quote)           { create_quote }
-  let(:starred_quote)   { create_quote(:starred => true) }
   let(:updated_quote)   { gateway.get(quote.id) }
-  let(:updated_starred) { gateway.get(starred_quote.id) }
   let(:input) do
     {
       :id  => quote.id,
