@@ -1,20 +1,36 @@
+require 'bound'
+
 module Quotes
   module UseCases
     class Search < UseCase
+
+      Result = Bound.required(
+        :quotes,
+        :query,
+        :tags
+      )
 
       def initialize(input)
         @query = input[:query]
       end
 
       def call
-        return searchable if blank_query
+        return build_result(searchable) if blank_query
 
-        build_search_results
+        build_result(search_results)
       end
 
       private
 
-      def build_search_results
+      def build_result(search_results)
+        Result.new(
+          :quotes => search_results,
+          :query  => query,
+          :tags   => tags
+        )
+      end
+
+      def search_results
         searchable.inject([]) do |result, quote|
           build_search_result(result, quote)
           result

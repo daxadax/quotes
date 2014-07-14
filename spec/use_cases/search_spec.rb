@@ -14,7 +14,7 @@ class SearchSpec < UseCaseSpec
 
     describe "with unexpected input" do
       it "returns all results unfiltered" do
-        assert_equal 50, result.count
+        assert_equal 50, result.quotes.count
       end
     end
 
@@ -22,17 +22,19 @@ class SearchSpec < UseCaseSpec
       let(:query) { 'author 25' }
 
       it "returns results for the given query" do
-        assert_equal 1, result.count
+        assert_equal 1, result.quotes.count
 
-        assert_equal 'Author 25',         result[0].author
-        assert_equal 'Title 25',          result[0].title
-        assert_includes result[0].tags,  'tag_25a'
+        assert_equal 'Author 25',               result.quotes[0].author
+        assert_equal 'Title 25',                result.quotes[0].title
+        assert_includes result.quotes[0].tags,  'tag_25a'
+        assert_equal query,                     result.query
+        assert_empty result.tags
       end
 
       describe "does not include text from tags" do
         let(:query) { '[author 23]' }
 
-        it { assert_empty result }
+        it { assert_empty result.quotes }
       end
     end
 
@@ -41,7 +43,9 @@ class SearchSpec < UseCaseSpec
         let(:query) { '[nothing here]' }
 
         it "returns an empty array" do
-          assert_empty result
+          assert_empty result.quotes
+          assert_empty result.query
+          assert_equal ['nothing here'], result.tags
         end
       end
 
@@ -49,11 +53,12 @@ class SearchSpec < UseCaseSpec
         let(:query) { '[tag_1]' }
 
         it "returns results with a matching tag" do
-          assert_equal 10, result.count
+          assert_equal 10, result.quotes.count
 
-          result.each do |quote|
+          result.quotes.each do |quote|
             assert_includes quote.tags, 'tag_1'
           end
+          assert_equal ['tag_1'], result.tags
         end
       end
 
@@ -61,7 +66,9 @@ class SearchSpec < UseCaseSpec
         let(:query) { '[tag_0] [two tags]' }
 
         it "returns results that have both tags" do
-          assert_equal 2, result.count
+          assert_equal 2, result.quotes.count
+          assert_empty result.query
+          assert_equal ['tag_0', 'two tags'], result.tags
         end
       end
 
@@ -71,9 +78,11 @@ class SearchSpec < UseCaseSpec
       let(:query) { '[tag_0] [two tags] author 19' }
 
       it "returns items with matching tags and text" do
-        assert_equal 1, result.count
+        assert_equal 1, result.quotes.count
 
-        assert_equal "Author 19", result[0].author
+        assert_equal "Author 19", result.quotes[0].author
+        assert_equal 'author 19', result.query
+        assert_equal ['tag_0', 'two tags'], result.tags
       end
     end
   end
