@@ -6,7 +6,7 @@ class ToggleStarSpec < UseCaseSpec
   let(:updated_quote)   { gateway.get(quote.id) }
   let(:input) do
     {
-      :id  => quote.id,
+      :id  => quote.id
     }
   end
   let(:use_case)  { UseCases::ToggleStar.new(input) }
