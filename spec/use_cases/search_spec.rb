@@ -12,6 +12,10 @@ class SearchSpec < UseCaseSpec
   describe "call" do
     let(:result) { use_case.call }
 
+    it 'returns a boundary object' do
+      assert_kind_of UseCases::Search::Result, result
+    end
+
     describe "with unexpected input" do
       it "returns all results unfiltered" do
         assert_equal 50, result.quotes.count

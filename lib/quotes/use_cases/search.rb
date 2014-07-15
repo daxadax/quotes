@@ -4,10 +4,11 @@ module Quotes
   module UseCases
     class Search < UseCase
 
-      Result = Bound.required(
-        :quotes,
+      Quote   = Services::QuoteBoundary::Quote
+      Result  = Bound.required(
         :query,
-        :tags
+        :tags,
+        :quotes => [Quote]
       )
 
       def initialize(input)
@@ -22,12 +23,18 @@ module Quotes
 
       private
 
-      def build_result(search_results)
+      def build_result(quotes)
         Result.new(
-          :quotes => search_results,
+          :quotes => build_boundaries_from(quotes),
           :query  => query,
           :tags   => tags
         )
+      end
+
+      def build_boundaries_from(quotes)
+        quotes.map do |quote|
+          quote_boundary.for(quote)
+        end
       end
 
       def search_results
