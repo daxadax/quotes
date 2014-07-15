@@ -17,11 +17,13 @@ class GetQuoteSpec < UseCaseSpec
       end
     end
 
-    it "retrieves the quote with the given quote_id" do
-      assert_equal quote.id,      result.id
-      assert_equal quote.author,  result.author
-      assert_equal quote.title,   result.title
-      assert_equal quote.content, result.content
+    it "retrieves the quote with the given quote_id as a bound object" do
+      assert_kind_of UseCases::GetQuote::Result, result
+
+      assert_equal quote.id,      result.quote.id
+      assert_equal quote.author,  result.quote.author
+      assert_equal quote.title,   result.quote.title
+      assert_equal quote.content, result.quote.content
     end
   end
 

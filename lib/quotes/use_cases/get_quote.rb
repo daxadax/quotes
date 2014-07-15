@@ -2,6 +2,9 @@ module Quotes
   module UseCases
     class GetQuote < UseCase
 
+      Quote   = Services::QuoteBoundary::Quote
+      Result  = Bound.required( :quote => Quote )
+
       def initialize(input)
         ensure_valid_input!(input[:id])
 
@@ -9,10 +12,16 @@ module Quotes
       end
 
       def call
-        gateway.get(@id)
+        Result.new(:quote => get_quote)
       end
 
       private
+
+      def get_quote
+        quote = gateway.get(@id)
+
+        quote_boundary.for quote
+      end
 
       def ensure_valid_input!(id)
         reason = "The given Quote ID is invalid"
