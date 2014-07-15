@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class KindleImporterSpec < Minitest::Spec
+class KindleImporterSpec < ServiceSpec
   let(:kindle_importer) { Services::KindleImporter.new }
   let(:input) do
     File.read("spec/support/sample_kindle_clippings.txt")

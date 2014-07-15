@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class LinksUpdaterSpec < BackendSpec
+class LinksUpdaterSpec < ServiceSpec
   let(:gateway)         { Gateways::QuotesGateway.new }
   let(:links_updater)   { Services::LinksUpdater.new }
   let(:linked_quote)    { create_quote }

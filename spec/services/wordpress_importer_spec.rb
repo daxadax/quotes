@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class WordpressImporterSpec < Minitest::Spec
+class WordpressImporterSpec < ServiceSpec
   let(:wordpress_importer)  { Services::WordpressImporter.new }
   let(:input) do
     File.read("spec/support/sample_wordpress_blog.xml")
