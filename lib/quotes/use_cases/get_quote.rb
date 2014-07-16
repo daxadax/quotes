@@ -1,3 +1,5 @@
+require 'quotes/services/quote_boundary'
+
 module Quotes
   module UseCases
     class GetQuote < UseCase
