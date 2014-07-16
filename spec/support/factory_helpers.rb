@@ -43,13 +43,15 @@ module Support
     def build_tags(options)
       tags = options[:tags] || []
 
-      dump(tags)
+      return dump(tags) unless options[:no_json]
+      tags
     end
 
     def build_links(options)
       links = options[:links] || []
 
-      dump(links)
+      return dump(links) unless options[:no_json]
+      links
     end
 
     def dump(obj)
