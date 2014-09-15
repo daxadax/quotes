@@ -1,5 +1,3 @@
-require 'support/backend_spec'
-
-class ServiceSpec < BackendSpec
+class ServiceSpec < Minitest::Spec
 
 end
