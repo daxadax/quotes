@@ -20,8 +20,7 @@ module Quotes
       private
 
       def update_quote
-        quote = build_quote
-        add_to_gateway quote
+        update_in_gateway build_quote
       end
 
       def build_quote
@@ -33,7 +32,7 @@ module Quotes
         Entities::Quote.new(author, title, content, options)
       end
 
-      def add_to_gateway(quote)
+      def update_in_gateway(quote)
         gateway.update quote
       end
 
