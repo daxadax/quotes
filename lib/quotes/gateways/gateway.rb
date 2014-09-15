@@ -1,3 +1,7 @@
+require 'bundler'
+Bundler.setup
+
+require 'persistence'
 require 'json'
 
 module Quotes
@@ -6,7 +10,7 @@ module Quotes
       include Support::ValidationHelpers
 
       def backend_for_quotes
-        Gateways::QuotesGatewayBackend.new
+        Persistence::Gateways::QuotesGatewayBackend.new
       end
 
     end
