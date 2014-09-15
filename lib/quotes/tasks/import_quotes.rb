@@ -35,12 +35,16 @@ module Quotes
 
       def add_to_gateway(quotes)
         quotes.each do |quote|
-          @gateway.add(quote)
+          gateway.add(quote)
         end
       end
 
       def files
         @files
+      end
+
+      def gateway
+        @gateway
       end
 
     end
