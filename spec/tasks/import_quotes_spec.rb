@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class ImportQuotesSpec < BackendSpec
+class ImportQuotesSpec < Minitest::Spec
 
   let(:files) do
     [
