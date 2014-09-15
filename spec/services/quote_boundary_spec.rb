@@ -7,10 +7,7 @@ class QuoteBoundarySpec < ServiceSpec
       :year         => 1866,
       :page_number  => 23,
       :starred      => true,
-      :tags         => %w[some fake tag  it "grants access to starred" do
-    assert_equal quote.starred, result.starred
-  end
-s],
+      :tags         => %w[some fake tag],
       :links        => [24, 36]
     }
   end
