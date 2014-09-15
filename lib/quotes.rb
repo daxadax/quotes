@@ -1,12 +1,12 @@
 require 'quotes/version'
 
-require './lib/quotes/helpers/validation_helpers'
+require 'quotes/support/validation_helpers'
 
-require './lib/quotes/entities'
-require './lib/quotes/services'
-require './lib/quotes/gateways'
-require './lib/quotes/tasks'
-require './lib/quotes/use_cases'
+require 'quotes/entities'
+require 'quotes/services'
+require 'quotes/gateways'
+require 'quotes/tasks'
+require 'quotes/use_cases'
 
 module Quotes
 end
