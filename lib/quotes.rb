@@ -1,13 +1,12 @@
 require 'quotes/version'
 
-# require all support files
-require_relative 'quotes/support/validation_helpers'
+require './lib/quotes/helpers/validation_helpers'
 
-require_relative 'quotes/entities'
-require_relative 'quotes/services'
-require_relative 'quotes/gateways'
-require_relative 'quotes/tasks'
-require_relative 'quotes/use_cases'
+require './lib/quotes/entities'
+require './lib/quotes/services'
+require './lib/quotes/gateways'
+require './lib/quotes/tasks'
+require './lib/quotes/use_cases'
 
 module Quotes
 end
