@@ -6,10 +6,6 @@ class DeleteQuoteSpec < UseCaseSpec
   let(:use_case)    { UseCases::DeleteQuote.new(input) }
 
   describe "call" do
-    before do
-      5.times { create_quote }
-    end
-
     describe "with unexpected input" do
       let(:quote_id) { '23' }
 
@@ -19,6 +15,10 @@ class DeleteQuoteSpec < UseCaseSpec
     end
 
     describe "with expected input" do
+      before do
+        5.times { create_quote }
+      end
+
       let(:quote_id) { gateway.all.last.id }
 
       it "deletes the quote with the given quote_id" do
