@@ -1,7 +1,6 @@
-require 'support/backend_spec'
 require 'spec_helper'
 
-class UseCaseSpec < BackendSpec
+class UseCaseSpec < Minitest::Spec
 
   def gateway
     @gateway ||= Gateways::QuotesGateway.new
