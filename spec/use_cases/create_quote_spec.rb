@@ -51,7 +51,6 @@ class CreateQuoteSpec < UseCaseSpec
       assert_equal 'Author',  loaded_quote.author
       assert_equal 'Title',   loaded_quote.title
       assert_equal 'Content', loaded_quote.content
-      assert_equal false,     loaded_quote.starred
     end
 
     it "returns the uid of the newly created quote on success" do

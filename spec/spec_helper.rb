@@ -46,13 +46,6 @@ class FakeGatewayBackend
     @memories.delete(uid)
   end
 
-  def toggle_star(uid)
-    quote = get(uid)
-    quote[:starred] == true ? quote[:starred] = false : quote[:starred] = true
-
-    update quote
-  end
-
   private
 
   def next_uid

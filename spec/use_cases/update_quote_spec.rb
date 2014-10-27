@@ -63,7 +63,6 @@ class UpdateQuoteSpec < UseCaseSpec
         assert_equal 'updated author',  loaded_quote.author
         assert_equal 'Title',           loaded_quote.title
         assert_equal 'updated content', loaded_quote.content
-        assert_equal false,             loaded_quote.starred
         assert_equal 3,                 loaded_quote.tags.size
       end
 

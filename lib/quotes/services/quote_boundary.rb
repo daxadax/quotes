@@ -12,7 +12,6 @@ module Quotes
         :publisher,
         :year,
         :page_number,
-        :starred,
         :tags,
         :links
       )
@@ -32,7 +31,6 @@ module Quotes
           :publisher    => quote.publisher,
           :year         => quote.year,
           :page_number  => quote.page_number,
-          :starred      => quote.starred,
           :tags         => quote.tags,
           :links        => quote.links
         )

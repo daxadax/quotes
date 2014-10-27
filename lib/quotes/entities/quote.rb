@@ -15,7 +15,6 @@ module Quotes
         @publisher    = options[:publisher]   || nil
         @year         = options[:year]        || nil
         @page_number  = options[:page_number] || nil
-        @starred      = options[:starred]     || false
         @tags         = options[:tags]        || []
         @links        = options[:links]       || []
       end

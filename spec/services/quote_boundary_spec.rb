@@ -6,7 +6,6 @@ class QuoteBoundarySpec < ServiceSpec
       :publisher    => 'publishing house',
       :year         => 1866,
       :page_number  => 23,
-      :starred      => true,
       :tags         => %w[some fake tag],
       :links        => [24, 36]
     }
@@ -42,10 +41,6 @@ class QuoteBoundarySpec < ServiceSpec
 
   it "grants access to page_number" do
     assert_equal quote.page_number, result.page_number
-  end
-
-  it "grants access to starred" do
-    assert_equal quote.starred, result.starred
   end
 
   it "grants access to tags" do

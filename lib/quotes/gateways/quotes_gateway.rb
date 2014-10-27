@@ -34,12 +34,6 @@ module Quotes
         @backend.delete(uid)
       end
 
-      def toggle_star(uid)
-        ensure_persisted!(uid, 'toggle the star status of')
-
-        @backend.toggle_star(uid)
-      end
-
       private
 
       def serialized(quote)
@@ -88,7 +82,6 @@ module Quotes
             :publisher    => quote.publisher,
             :year         => quote.year,
             :page_number  => quote.page_number,
-            :starred      => quote.starred,
             :tags         => JSON.dump(tags),
             :links        => JSON.dump(quote.links)
           }
@@ -105,7 +98,6 @@ module Quotes
             :publisher    => quote[:publisher],
             :year         => quote[:year],
             :page_number  => quote[:page_number],
-            :starred      => quote[:starred],
             :tags         => JSON.parse(quote[:tags]),
             :links        => JSON.parse(quote[:links])
           }

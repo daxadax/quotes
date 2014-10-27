@@ -9,7 +9,6 @@ class QuotesGatewaySpec < Minitest::Spec
     build_quote(
       :author     => "New Author",
       :uid         => "test_quote_uid",
-      :starred    => true,
       :links      => [24, 36]
     )
   end
@@ -83,7 +82,6 @@ class QuotesGatewaySpec < Minitest::Spec
       assert_equal 'New Author',  result.author
       assert_equal quote.title,   result.title
       assert_equal quote.content, result.content
-      assert_equal true,          result.starred
       assert_equal quote.tags,    result.tags
       assert_equal [24, 36],      result.links
     end
@@ -125,24 +123,6 @@ class QuotesGatewaySpec < Minitest::Spec
     end
   end
 
-  describe "toggle_star" do
-    describe "without a persisted object" do
-      it "fails" do
-        assert_failure { gateway.toggle_star(quote.uid) }
-      end
-    end
-
-    it "adds or removes 'starred' status" do
-      uid = gateway.add(quote)
-
-      gateway.toggle_star(uid)
-      assert_equal true, gateway.get(uid).starred
-
-      gateway.toggle_star(uid)
-      assert_equal false, gateway.get(uid).starred
-    end
-  end
-
   class FakeBackend
 
     def initialize
@@ -172,13 +152,6 @@ class QuotesGatewaySpec < Minitest::Spec
 
     def delete(uid)
       @memory.delete_if {|q| q[:uid] == uid}
-    end
-
-    def toggle_star(uid)
-      quote = get(uid)
-      quote[:starred] == true ? quote[:starred] = false : quote[:starred] = true
-
-      update quote
     end
 
   end

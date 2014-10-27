@@ -32,7 +32,6 @@ module Support
         :publisher    => options[:publisher]    || nil,
         :year         => options[:year]         || nil,
         :page_number  => options[:page_number]  || nil,
-        :starred      => options[:starred]      || false,
         :tags         => build_tags(options),
         :links        => build_links(options)
       }

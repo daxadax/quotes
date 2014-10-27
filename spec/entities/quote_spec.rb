@@ -22,7 +22,6 @@ class QuoteSpec < Minitest::Spec
       assert_nil    quote.publisher
       assert_nil    quote.year
       assert_nil    quote.page_number
-      refute        quote.starred
       assert_empty  quote.tags
       assert_empty  quote.links
     end
@@ -52,7 +51,6 @@ class QuoteSpec < Minitest::Spec
           :publisher    => 'free press',
           :year         => '1969',
           :page_number  => '356',
-          :starred      => true
         }
       end
 
