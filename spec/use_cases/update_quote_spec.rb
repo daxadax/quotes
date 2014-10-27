@@ -4,7 +4,7 @@ class UpdateQuoteSpec < UseCaseSpec
 
   let(:options) do
     {
-      :id       => 1,
+      :uid       => 1,
       :author   => 'updated author',
       :content  => 'updated content',
       :tags     => ['some', 'updated', 'tags'],
@@ -17,7 +17,7 @@ class UpdateQuoteSpec < UseCaseSpec
 
   describe "call" do
     let(:result)        { use_case.call }
-    let(:loaded_quote)  { gateway.get(result.id) }
+    let(:loaded_quote)  { gateway.get(result.uid) }
 
     describe "with unexpected input" do
       describe "without author" do
@@ -59,7 +59,7 @@ class UpdateQuoteSpec < UseCaseSpec
       it "updates the given quote" do
         assert_kind_of UseCases::UpdateQuote::Success, result
 
-        assert_equal 1,                 loaded_quote.id
+        assert_equal 1,                 loaded_quote.uid
         assert_equal 'updated author',  loaded_quote.author
         assert_equal 'Title',           loaded_quote.title
         assert_equal 'updated content', loaded_quote.content
@@ -67,8 +67,8 @@ class UpdateQuoteSpec < UseCaseSpec
         assert_equal 3,                 loaded_quote.tags.size
       end
 
-      it "returns the id of the updated quote on success" do
-        assert_equal 1, result.id
+      it "returns the uid of the updated quote on success" do
+        assert_equal 1, result.uid
       end
     end
 

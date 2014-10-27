@@ -8,7 +8,7 @@ class QuotesGatewaySpec < Minitest::Spec
   let(:updated_quote) do
     build_quote(
       :author     => "New Author",
-      :id         => "test_quote_id",
+      :uid         => "test_quote_uid",
       :starred    => true,
       :links      => [24, 36]
     )
@@ -21,22 +21,22 @@ class QuotesGatewaySpec < Minitest::Spec
     end
 
     describe "with an already added quote" do
-      let(:quote) { build_quote(:id => "already_here!") }
+      let(:quote) { build_quote(:uid => "already_here!") }
 
       it "fails" do
         assert_failure { gateway.add(quote) }
       end
     end
 
-    it "returns the id of the inserted quote on success" do
-      quote_id = add_quote
+    it "returns the uid of the inserted quote on success" do
+      quote_uid = add_quote
 
-      assert_equal 'test_quote_id', quote_id
+      assert_equal 'test_quote_uid', quote_uid
     end
 
     it "serializes the quote and delegates it to the backend" do
-      quote_id  = add_quote
-      result    = gateway.get(quote_id)
+      quote_uid = add_quote
+      result    = gateway.get(quote_uid)
 
       assert_equal result.author,   quote.author
       assert_equal result.title,    quote.title
@@ -48,8 +48,8 @@ class QuotesGatewaySpec < Minitest::Spec
       let(:quote) { build_quote(:tags => tags) }
 
       it "normalizes tags before storing them" do
-        quote_id  = add_quote
-        result    = gateway.get(quote_id)
+        quote_uid = add_quote
+        result    = gateway.get(quote_uid)
 
         refute_equal tags,        result.tags
         assert_equal 'upcase',    result.tags[0]
@@ -61,7 +61,7 @@ class QuotesGatewaySpec < Minitest::Spec
 
   describe "get" do
     it "returns nil if the backend returns nil" do
-      assert_nil gateway.get('not_a_stored_id')
+      assert_nil gateway.get('not_a_stored_uid')
     end
   end
 
@@ -74,12 +74,12 @@ class QuotesGatewaySpec < Minitest::Spec
     end
 
     it "updates any changed attributes" do
-      quote_id = add_quote
+      quote_uid = add_quote
       gateway.update(updated_quote)
-      result = gateway.get(quote_id)
+      result = gateway.get(quote_uid)
 
       refute_equal quote,         result
-      assert_equal quote_id,      result.id
+      assert_equal quote_uid,     result.uid
       assert_equal 'New Author',  result.author
       assert_equal quote.title,   result.title
       assert_equal quote.content, result.content
@@ -113,33 +113,33 @@ class QuotesGatewaySpec < Minitest::Spec
   describe "delete" do
     describe "without a persisted object" do
       it "fails" do
-        assert_failure { gateway.delete(quote.id) }
+        assert_failure { gateway.delete(quote.uid) }
       end
     end
 
-    it "removes the quote associated with the given id" do
-      id = gateway.add(quote)
-      gateway.delete(id)
+    it "removes the quote associated with the given uid" do
+      uid = gateway.add(quote)
+      gateway.delete(uid)
 
-      assert_nil gateway.get(id)
+      assert_nil gateway.get(uid)
     end
   end
 
   describe "toggle_star" do
     describe "without a persisted object" do
       it "fails" do
-        assert_failure { gateway.toggle_star(quote.id) }
+        assert_failure { gateway.toggle_star(quote.uid) }
       end
     end
 
     it "adds or removes 'starred' status" do
-      id = gateway.add(quote)
+      uid = gateway.add(quote)
 
-      gateway.toggle_star(id)
-      assert_equal true, gateway.get(id).starred
+      gateway.toggle_star(uid)
+      assert_equal true, gateway.get(uid).starred
 
-      gateway.toggle_star(id)
-      assert_equal false, gateway.get(id).starred
+      gateway.toggle_star(uid)
+      assert_equal false, gateway.get(uid).starred
     end
   end
 
@@ -150,19 +150,19 @@ class QuotesGatewaySpec < Minitest::Spec
     end
 
     def insert(quote)
-      quote[:id] = 'test_quote_id'
+      quote[:uid] = 'test_quote_uid'
 
       @memory << quote
 
-      quote[:id]
+      quote[:uid]
     end
 
-    def get(id)
-      @memory.select{ |q| q[:id] == id}.first
+    def get(uid)
+      @memory.select{ |q| q[:uid] == uid}.first
     end
 
     def update(quote)
-      @memory.delete_if {|q| q[:id] == quote[:id]}
+      @memory.delete_if {|q| q[:uid] == quote[:uid]}
       @memory << quote
     end
 
@@ -170,12 +170,12 @@ class QuotesGatewaySpec < Minitest::Spec
       @memory
     end
 
-    def delete(id)
-      @memory.delete_if {|q| q[:id] == id}
+    def delete(uid)
+      @memory.delete_if {|q| q[:uid] == uid}
     end
 
-    def toggle_star(id)
-      quote = get(id)
+    def toggle_star(uid)
+      quote = get(uid)
       quote[:starred] == true ? quote[:starred] = false : quote[:starred] = true
 
       update quote

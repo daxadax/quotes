@@ -16,8 +16,8 @@ class QuoteBoundarySpec < ServiceSpec
   let(:boundary)  { Services::QuoteBoundary.new }
   let(:result)    { boundary.for(quote) }
 
-  it "grants access to id" do
-    assert_equal quote.id, result.id
+  it "grants access to uid" do
+    assert_equal quote.uid, result.uid
   end
 
   it "grants access to author" do

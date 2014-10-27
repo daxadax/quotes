@@ -7,8 +7,8 @@ module Support
       quote   = build_quote(options)
       gateway = Quotes::Gateways::QuotesGateway.new
 
-      id = gateway.add quote
-      gateway.get id
+      uid = gateway.add quote
+      gateway.get uid
     end
 
     def build_quote(options = {})
@@ -28,7 +28,7 @@ module Support
         :author       => author,
         :title        => title,
         :content      => content,
-        :id           => options[:id]           || nil,
+        :uid          => options[:uid]          || nil,
         :publisher    => options[:publisher]    || nil,
         :year         => options[:year]         || nil,
         :page_number  => options[:page_number]  || nil,

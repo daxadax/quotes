@@ -12,12 +12,12 @@ module Quotes
         @backend.insert(serialized(quote))
       end
 
-      def get(id)
-        deserialize(@backend.get(id))
+      def get(uid)
+        deserialize(@backend.get(uid))
       end
 
       def update(quote)
-        ensure_persisted!(quote.id, 'update')
+        ensure_persisted!(quote.uid, 'update')
 
         @backend.update(serialized(quote))
       end
@@ -28,16 +28,16 @@ module Quotes
         end
       end
 
-      def delete(id)
-        ensure_persisted!(id, 'delete')
+      def delete(uid)
+        ensure_persisted!(uid, 'delete')
 
-        @backend.delete(id)
+        @backend.delete(uid)
       end
 
-      def toggle_star(id)
-        ensure_persisted!(id, 'toggle the star status of')
+      def toggle_star(uid)
+        ensure_persisted!(uid, 'toggle the star status of')
 
-        @backend.toggle_star(id)
+        @backend.toggle_star(uid)
       end
 
       private
@@ -66,13 +66,13 @@ module Quotes
       def ensure_not_persisted!(quote)
         reason = "Quotes can't be added twice. Use #update instead"
 
-        raise_argument_error(reason, quote) unless quote.id.nil?
+        raise_argument_error(reason, quote) unless quote.uid.nil?
       end
 
-      def ensure_persisted!(id, action)
+      def ensure_persisted!(uid, action)
         reason = "You tried to #{action} a quote, but it doesn't exist"
 
-        raise_argument_error(reason, 'None.  ID is nil') if id.nil?
+        raise_argument_error(reason, 'None.  ID is nil') if uid.nil?
       end
 
       class QuoteMarshal
@@ -81,7 +81,7 @@ module Quotes
           tags = quote.tags.map(&:downcase)
 
           {
-            :id           => quote.id,
+            :uid          => quote.uid,
             :author       => quote.author,
             :title        => quote.title,
             :content      => quote.content,
@@ -101,7 +101,7 @@ module Quotes
           title   = quote[:title]
           content = quote[:content]
           options = {
-            :id           => quote[:id],
+            :uid          => quote[:uid],
             :publisher    => quote[:publisher],
             :year         => quote[:year],
             :page_number  => quote[:page_number],

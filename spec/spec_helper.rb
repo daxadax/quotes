@@ -14,23 +14,23 @@ class FakeGatewayBackend
 
   def initialize
     @memories = Hash.new
-    @next_id = 0
+    @next_uid = 0
   end
 
   def reset
     @memories.clear
-    @next_id = 0
+    @next_uid = 0
   end
 
   def insert(quote)
-    quote[:id] = next_id
+    quote[:uid] = next_uid
 
-    @memories[quote[:id]] = quote
-    quote[:id]
+    @memories[quote[:uid]] = quote
+    quote[:uid]
   end
 
-  def get(id)
-    @memories[id]
+  def get(uid)
+    @memories[uid]
   end
 
   def all
@@ -38,16 +38,16 @@ class FakeGatewayBackend
   end
 
   def update(quote)
-    @memories[quote[:id]] = quote
-    quote[:id]
+    @memories[quote[:uid]] = quote
+    quote[:uid]
   end
 
-  def delete(id)
-    @memories.delete(id)
+  def delete(uid)
+    @memories.delete(uid)
   end
 
-  def toggle_star(id)
-    quote = get(id)
+  def toggle_star(uid)
+    quote = get(uid)
     quote[:starred] == true ? quote[:starred] = false : quote[:starred] = true
 
     update quote
@@ -55,8 +55,8 @@ class FakeGatewayBackend
 
   private
 
-  def next_id
-    @next_id += 1
+  def next_uid
+    @next_uid += 1
   end
 
 end

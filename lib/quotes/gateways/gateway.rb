@@ -10,6 +10,12 @@ module Quotes
       include Support::ValidationHelpers
 
       def backend_for_quotes
+        @quotes_gateway_backend ||= new_backend
+      end
+
+      private
+
+      def new_backend
         Persistence::Gateways::QuotesGatewayBackend.new
       end
 

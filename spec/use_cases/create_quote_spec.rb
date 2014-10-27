@@ -8,7 +8,7 @@ class CreateQuoteSpec < UseCaseSpec
 
   describe "call" do
     let(:result)        { use_case.call }
-    let(:loaded_quote)  { gateway.get(result.id) }
+    let(:loaded_quote)  { gateway.get(result.uid) }
 
     describe "with unexpected input" do
       describe "without author" do
@@ -47,15 +47,15 @@ class CreateQuoteSpec < UseCaseSpec
     it "builds a new quote and saves it to the database" do
       assert_kind_of UseCases::CreateQuote::Success, result
 
-      assert_equal 1,         loaded_quote.id
+      assert_equal 1,         loaded_quote.uid
       assert_equal 'Author',  loaded_quote.author
       assert_equal 'Title',   loaded_quote.title
       assert_equal 'Content', loaded_quote.content
       assert_equal false,     loaded_quote.starred
     end
 
-    it "returns the id of the newly created quote on success" do
-      assert_equal 1, result.id
+    it "returns the uid of the newly created quote on success" do
+      assert_equal 1, result.uid
     end
 
   end

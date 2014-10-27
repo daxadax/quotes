@@ -4,7 +4,7 @@ module Quotes
   module UseCases
     class CreateQuote < UseCase
 
-      Success = Bound.required(:id)
+      Success = Bound.required(:uid)
       Failure = Bound.new
 
       def initialize(input)
@@ -14,7 +14,7 @@ module Quotes
       def call
         return Failure.new if invalid?
 
-        Success.new(:id => build_quote_and_add_to_gateway )
+        Success.new(:uid => build_quote_and_add_to_gateway )
       end
 
       private

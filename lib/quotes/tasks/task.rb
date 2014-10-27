@@ -20,8 +20,6 @@ module Quotes
 
       def determine_parser(file_type)
         return Services::KindleImporter.new if file_type == :kindle
-
-        Services::WordpressImporter.new
       end
 
       private
@@ -36,8 +34,6 @@ module Quotes
 
       def build_file_type(file)
         return [:kindle, file] if file.start_with?("==")
-
-        [:wordpress, file]
       end
 
       def handle_missing_seeds

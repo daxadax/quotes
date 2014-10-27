@@ -3,10 +3,10 @@ require 'spec_helper'
 class ToggleStarSpec < UseCaseSpec
 
   let(:quote)           { create_quote }
-  let(:updated_quote)   { gateway.get(quote.id) }
+  let(:updated_quote)   { gateway.get(quote.uid) }
   let(:input) do
     {
-      :id  => quote.id
+      :uid  => quote.uid
     }
   end
   let(:use_case)  { UseCases::ToggleStar.new(input) }

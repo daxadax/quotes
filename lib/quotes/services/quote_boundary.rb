@@ -5,7 +5,7 @@ module Quotes
     class QuoteBoundary < Service
 
       Quote = Bound.required(
-        :id,
+        :uid,
         :author,
         :title,
         :content,
@@ -25,7 +25,7 @@ module Quotes
 
       def build_boundary(quote)
         Quote.new(
-          :id           => quote.id,
+          :uid           => quote.uid,
           :author       => quote.author,
           :title        => quote.title,
           :content      => quote.content,

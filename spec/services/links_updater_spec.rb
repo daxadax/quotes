@@ -7,19 +7,19 @@ class LinksUpdaterSpec < ServiceSpec
   let(:quote)           { create_quote }
 
   describe "update" do
-    before            { links_updater.update(quote.id, linked_quote.id) }
-    let(:result_one)  { gateway.get(quote.id) }
-    let(:result_two)  { gateway.get(linked_quote.id) }
+    before            { links_updater.update(quote.uid, linked_quote.uid) }
+    let(:result_one)  { gateway.get(quote.uid) }
+    let(:result_two)  { gateway.get(linked_quote.uid) }
 
     describe "with no link between the quotes" do
       it "adds a link" do
-        assert_includes result_one.links,  linked_quote.id
-        assert_includes result_two.links,  quote.id
+        assert_includes result_one.links,  linked_quote.uid
+        assert_includes result_two.links,  quote.uid
       end
     end
 
     describe "with a link already present between the quotes" do
-      before { links_updater.update(quote.id, linked_quote.id) }
+      before { links_updater.update(quote.uid, linked_quote.uid) }
 
       it "removes the link" do
         assert_empty result_one.links

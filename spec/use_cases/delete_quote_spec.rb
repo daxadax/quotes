@@ -2,12 +2,12 @@ require 'spec_helper'
 
 class DeleteQuoteSpec < UseCaseSpec
 
-  let(:input)       { {:id => quote_id} }
+  let(:input)       { {:uid => quote_uid} }
   let(:use_case)    { UseCases::DeleteQuote.new(input) }
 
   describe "call" do
     describe "with unexpected input" do
-      let(:quote_id) { '23' }
+      let(:quote_uid) { '23' }
 
       it "fails" do
         assert_failure { use_case.call }
@@ -19,15 +19,15 @@ class DeleteQuoteSpec < UseCaseSpec
         5.times { create_quote }
       end
 
-      let(:quote_id) { gateway.all.last.id }
+      let(:quote_uid) { gateway.all.last.uid }
 
-      it "deletes the quote with the given quote_id" do
+      it "deletes the quote with the given quote_uid" do
         assert_equal 5, gateway.all.count
 
         use_case.call
 
         assert_equal 4, gateway.all.count
-        assert_nil gateway.get(quote_id)
+        assert_nil gateway.get(quote_uid)
       end
     end
 

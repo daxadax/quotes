@@ -3,21 +3,13 @@ module Quotes
     class ToggleStar < UseCase
 
       def initialize(input)
-        ensure_valid_input!(input[:id])
+        ensure_valid_input!(input[:uid])
 
-        @id = input[:id]
+        @uid = input[:uid]
       end
 
       def call
-        gateway.toggle_star(@id)
-      end
-
-      private
-
-      def ensure_valid_input!(id)
-        reason = "The given Quote ID is invalid"
-
-        raise_argument_error(reason, id) unless id.kind_of? Integer || id.nil?
+        gateway.toggle_star(@uid)
       end
 
     end

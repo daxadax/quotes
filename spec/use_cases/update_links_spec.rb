@@ -6,15 +6,15 @@ class UpdateLinksSpec < UseCaseSpec
   let(:quote_two) { create_quote }
   let(:input) do
     {
-      :first  => quote_one.id,
-      :second => quote_two.id
+      :first  => quote_one.uid,
+      :second => quote_two.uid
     }
   end
   let(:use_case)  { UseCases::UpdateLinks.new(input) }
 
   describe "call" do
-    let(:result_one)  { gateway.get(quote_one.id) }
-    let(:result_two)  { gateway.get(quote_two.id) }
+    let(:result_one)  { gateway.get(quote_one.uid) }
+    let(:result_two)  { gateway.get(quote_two.uid) }
 
     describe "with unexpected input" do
       let(:quote_one) { build_quote }
@@ -30,8 +30,8 @@ class UpdateLinksSpec < UseCaseSpec
 
       use_case.call
 
-      assert_includes result_one.links, quote_two.id
-      assert_includes result_two.links, quote_one.id
+      assert_includes result_one.links, quote_two.uid
+      assert_includes result_two.links, quote_one.uid
     end
   end
 

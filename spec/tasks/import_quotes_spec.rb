@@ -5,8 +5,7 @@ class ImportQuotesSpec < Minitest::Spec
   let(:files) do
     [
       File.read("spec/support/sample_kindle_clippings.txt"),
-      File.read("spec/support/kindle_clippings_with_dups.txt"),
-      File.read("spec/support/sample_wordpress_blog.xml")
+      File.read("spec/support/kindle_clippings_with_dups.txt")
     ]
   end
   let(:import_quotes) { Tasks::ImportQuotes.new(files) }
@@ -29,13 +28,12 @@ class ImportQuotesSpec < Minitest::Spec
       it "adds all quote entities to the gateway" do
         assert_kind_of  Array,                result
         assert_kind_of  Entities::Quote,      result.last
-        assert_equal    'Erich Neumann',      result.last.author
-        assert_includes result.last.content,  'archetypal stages'
-        assert_equal    'archetypes',         result.last.tags.first
+        assert_equal    'Sample Author',      result.last.author
+        assert_includes result.last.content,  'sample highlight'
       end
 
       it "does not return duplicates" do
-        assert_equal 7, result.size
+        assert_equal 3, result.size
       end
     end
 

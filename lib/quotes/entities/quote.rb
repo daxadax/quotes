@@ -1,7 +1,7 @@
 module Quotes
   module Entities
     class Quote < Entity
-      attr_accessor :author, :title, :content, :id, :publisher, :year,
+      attr_accessor :author, :title, :content, :uid, :publisher, :year,
                     :page_number, :starred, :tags
       attr_reader   :links
 
@@ -11,7 +11,7 @@ module Quotes
         @author       = author
         @title        = title
         @content      = content
-        @id           = options[:id]          || nil
+        @uid           = options[:uid]        || nil
         @publisher    = options[:publisher]   || nil
         @year         = options[:year]        || nil
         @page_number  = options[:page_number] || nil

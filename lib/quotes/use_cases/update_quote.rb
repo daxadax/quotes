@@ -4,7 +4,7 @@ module Quotes
   module UseCases
     class UpdateQuote < UseCase
 
-      Success = Bound.required(:id)
+      Success = Bound.required(:uid)
       Failure = Bound.new
 
       def initialize(input)
@@ -14,7 +14,7 @@ module Quotes
       def call
         return Failure.new if invalid?
 
-        Success.new(:id => update_quote )
+        Success.new(:uid => update_quote )
       end
 
       private
@@ -42,7 +42,7 @@ module Quotes
 
       def invalid?
         return true if quote.nil? || quote.empty?
-        return true if quote[:id].nil? || !quote[:id].kind_of?(Integer)
+        return true if quote[:uid].nil? || !quote[:uid].kind_of?(Integer)
 
         [quote[:author], quote[:title], quote[:content]].each do |required|
           return true if required.nil? || required.empty?

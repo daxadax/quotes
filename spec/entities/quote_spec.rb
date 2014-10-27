@@ -18,7 +18,7 @@ class QuoteSpec < Minitest::Spec
     end
 
     it "has sane defaults for non-required arguments" do
-      assert_nil    quote.id
+      assert_nil    quote.uid
       assert_nil    quote.publisher
       assert_nil    quote.year
       assert_nil    quote.page_number

@@ -25,7 +25,7 @@ class GetQuotesSpec < UseCaseSpec
         assert_kind_of UseCases::GetQuotes::Result,     result
         assert_kind_of Services::QuoteBoundary::Quote,  first_result
 
-        assert_equal 1,         first_result.id
+        assert_equal 1,         first_result.uid
         assert_equal 'Author',  first_result.author
         assert_equal 'Title',   first_result.title
         assert_equal 'Content', first_result.content

@@ -14,14 +14,6 @@ module Quotes
         Services::LinksUpdater.new.update(@quote_one, @quote_two)
       end
 
-      private
-
-      def ensure_valid_input!(id)
-        reason = "The given Quote ID is invalid"
-
-        raise_argument_error(reason, id) unless id.kind_of? Integer || id.nil?
-      end
-
     end
   end
 end
