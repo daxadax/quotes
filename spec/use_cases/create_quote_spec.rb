@@ -2,9 +2,9 @@ require 'spec_helper'
 
 class CreateQuoteSpec < UseCaseSpec
 
-  let(:quote)     { build_serialized_quote(:no_json => true) }
-  let(:input)     { {:quote => quote} }
-  let(:use_case)  { UseCases::CreateQuote.new(input) }
+  let(:quote) { build_serialized_quote(:no_json => true) }
+  let(:input) { {:quote => quote} }
+  let(:use_case) { UseCases::CreateQuote.new(input) }
 
   describe "call" do
     let(:result)        { use_case.call }
