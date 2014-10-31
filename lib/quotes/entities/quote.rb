@@ -1,8 +1,7 @@
 module Quotes
   module Entities
     class Quote < Entity
-      attr_accessor :author, :title, :content, :uid, :publisher, :year,
-                    :page_number, :starred, :tags
+      attr_accessor :author, :title, :content, :uid, :publisher, :year, :page_number, :tags
       attr_reader   :links
 
       def initialize(author, title, content, options = {})
