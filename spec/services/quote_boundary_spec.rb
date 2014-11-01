@@ -3,20 +3,24 @@ require 'spec_helper'
 class QuoteBoundarySpec < ServiceSpec
   let(:options_for_quote) do
     {
-      :publisher    => 'publishing house',
-      :year         => 1866,
-      :page_number  => 23,
-      :tags         => %w[some fake tag],
-      :links        => [24, 36]
+      :publisher => 'publishing house',
+      :year => 1866,
+      :page_number => 23,
+      :tags => %w[some fake tag],
+      :links => [24, 36]
     }
   end
 
-  let(:quote)     { create_quote(options_for_quote) }
-  let(:boundary)  { Services::QuoteBoundary.new }
-  let(:result)    { boundary.for(quote) }
+  let(:quote) { create_quote(options_for_quote) }
+  let(:boundary) { Services::QuoteBoundary.new }
+  let(:result) { boundary.for(quote) }
 
   it "grants access to uid" do
     assert_equal quote.uid, result.uid
+  end
+
+  it 'grants access to added_by' do
+    assert_equal quote.added_by, result.added_by
   end
 
   it "grants access to author" do

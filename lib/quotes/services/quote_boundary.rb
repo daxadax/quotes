@@ -6,6 +6,7 @@ module Quotes
 
       Quote = Bound.required(
         :uid,
+        :added_by,
         :author,
         :title,
         :content,
@@ -24,15 +25,16 @@ module Quotes
 
       def build_boundary(quote)
         Quote.new(
-          :uid           => quote.uid,
-          :author       => quote.author,
-          :title        => quote.title,
-          :content      => quote.content,
-          :publisher    => quote.publisher,
-          :year         => quote.year,
-          :page_number  => quote.page_number,
-          :tags         => quote.tags,
-          :links        => quote.links
+          :uid => quote.uid,
+          :added_by => quote.added_by,
+          :author => quote.author,
+          :title => quote.title,
+          :content => quote.content,
+          :publisher => quote.publisher,
+          :year => quote.year,
+          :page_number => quote.page_number,
+          :tags => quote.tags,
+          :links => quote.links
         )
       end
 
