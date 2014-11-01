@@ -77,8 +77,8 @@ class QuotesGatewaySpec < Minitest::Spec
       gateway.update(updated_quote)
       result = gateway.get(quote_uid)
 
-      refute_equal quote,         result
-      assert_equal quote_uid,     result.uid
+      refute_equal quote, result
+      assert_equal quote_uid, result.uid
       assert_equal 'New Author',  result.author
       assert_equal quote.title,   result.title
       assert_equal quote.content, result.content

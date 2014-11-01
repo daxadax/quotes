@@ -4,29 +4,36 @@ class QuoteSpec < Minitest::Spec
   let(:author)  { 'joe' }
   let(:title)   { 'joes book' }
   let(:content) { 'four score and...' }
+  let(:user_uid) { 23 }
   let(:options) { {} }
 
   let(:quote) do
-    Entities::Quote.new(author, title, content, options)
+    Entities::Quote.new(user_uid, author, title, content, options)
   end
 
   describe 'construction' do
-    it 'can be built with three arguments' do
-      assert_equal 'joe',               quote.author
-      assert_equal 'joes book',         quote.title
+    it 'can be built with four arguments' do
+      assert_equal 23, quote.added_by
+      assert_equal 'joe', quote.author
+      assert_equal 'joes book', quote.title
       assert_equal 'four score and...', quote.content
     end
 
     it "has sane defaults for non-required arguments" do
-      assert_nil    quote.uid
-      assert_nil    quote.publisher
-      assert_nil    quote.year
-      assert_nil    quote.page_number
-      assert_empty  quote.tags
-      assert_empty  quote.links
+      assert_nil quote.uid
+      assert_nil quote.publisher
+      assert_nil quote.year
+      assert_nil quote.page_number
+      assert_empty quote.tags
+      assert_empty quote.links
     end
 
     describe 'without' do
+
+      describe 'added_by' do
+        let(:user_uid)  {nil}
+        it('fails')   {assert_failure{quote}}
+      end
 
       describe 'author' do
         let(:author)  {nil}
@@ -45,7 +52,7 @@ class QuoteSpec < Minitest::Spec
 
     end
 
-    describe 'can build a other attributes' do
+    describe 'can build all other attributes' do
       let(:options) do
         {
           :publisher    => 'free press',

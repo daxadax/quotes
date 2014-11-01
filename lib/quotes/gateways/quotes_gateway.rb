@@ -75,34 +75,36 @@ module Quotes
           tags = quote.tags.map(&:downcase)
 
           {
-            :uid          => quote.uid,
-            :author       => quote.author,
-            :title        => quote.title,
-            :content      => quote.content,
-            :publisher    => quote.publisher,
-            :year         => quote.year,
-            :page_number  => quote.page_number,
-            :tags         => JSON.dump(tags),
-            :links        => JSON.dump(quote.links)
+            :added_by => quote.added_by,
+            :uid => quote.uid,
+            :author => quote.author,
+            :title => quote.title,
+            :content => quote.content,
+            :publisher => quote.publisher,
+            :year => quote.year,
+            :page_number => quote.page_number,
+            :tags => JSON.dump(tags),
+            :links => JSON.dump(quote.links)
           }
         end
 
         def self.load(quote)
           return nil unless quote
 
-          author  = quote[:author]
-          title   = quote[:title]
+          added_by = quote[:added_by]
+          author = quote[:author]
+          title = quote[:title]
           content = quote[:content]
           options = {
-            :uid          => quote[:uid],
-            :publisher    => quote[:publisher],
-            :year         => quote[:year],
-            :page_number  => quote[:page_number],
-            :tags         => JSON.parse(quote[:tags]),
-            :links        => JSON.parse(quote[:links])
+            :uid => quote[:uid],
+            :publisher => quote[:publisher],
+            :year => quote[:year],
+            :page_number => quote[:page_number],
+            :tags => JSON.parse(quote[:tags]),
+            :links => JSON.parse(quote[:links])
           }
 
-          Entities::Quote.new(author, title, content, options)
+          Entities::Quote.new(added_by, author, title, content, options)
         end
 
       end

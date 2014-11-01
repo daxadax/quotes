@@ -2,20 +2,21 @@ module Quotes
   module Entities
     class Quote < Entity
       attr_accessor :author, :title, :content, :uid, :publisher, :year, :page_number, :tags
-      attr_reader   :links
+      attr_reader   :links, :added_by
 
-      def initialize(author, title, content, options = {})
-        validate(author, title, content)
+      def initialize(added_by, author, title, content, options = {})
+        validate(added_by, author, title, content)
 
-        @author       = author
-        @title        = title
-        @content      = content
-        @uid           = options[:uid]        || nil
-        @publisher    = options[:publisher]   || nil
-        @year         = options[:year]        || nil
-        @page_number  = options[:page_number] || nil
-        @tags         = options[:tags]        || []
-        @links        = options[:links]       || []
+        @added_by = added_by
+        @author = author
+        @title = title
+        @content = content
+        @uid = options[:uid] || nil
+        @publisher= options[:publisher] || nil
+        @year = options[:year] || nil
+        @page_number = options[:page_number] || nil
+        @tags = options[:tags] || []
+        @links = options[:links] || []
       end
 
       def update_links(link)
@@ -28,12 +29,12 @@ module Quotes
 
       private
 
-      def validate(author, title, content)
-        ['author', 'title', 'content'].each do |param_name|
+      def validate(added_by, author, title, content)
+        ['added_by','author', 'title', 'content'].each do |param_name|
           value   = eval(param_name)
           reason  = "#{param_name.capitalize} missing"
 
-          raise_argument_error(reason, value) if value.nil? || value.empty?
+          raise_argument_error(reason, value) if value.nil? || value.to_s.empty?
         end
       end
 

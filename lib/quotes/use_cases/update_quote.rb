@@ -24,12 +24,13 @@ module Quotes
       end
 
       def build_quote
+        added_by = quote.delete(:added_by)
         author  = quote.delete(:author)
         title   = quote.delete(:title)
         content = quote.delete(:content)
         options = quote
 
-        Entities::Quote.new(author, title, content, options)
+        Entities::Quote.new(added_by, author, title, content, options)
       end
 
       def update_in_gateway(quote)

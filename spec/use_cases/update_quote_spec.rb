@@ -59,11 +59,12 @@ class UpdateQuoteSpec < UseCaseSpec
       it "updates the given quote" do
         assert_kind_of UseCases::UpdateQuote::Success, result
 
-        assert_equal 1,                 loaded_quote.uid
-        assert_equal 'updated author',  loaded_quote.author
-        assert_equal 'Title',           loaded_quote.title
+        assert_equal 1, loaded_quote.uid
+        assert_equal 23, loaded_quote.added_by
+        assert_equal 'updated author', loaded_quote.author
+        assert_equal 'Title', loaded_quote.title
         assert_equal 'updated content', loaded_quote.content
-        assert_equal 3,                 loaded_quote.tags.size
+        assert_equal 3, loaded_quote.tags.size
       end
 
       it "returns the uid of the updated quote on success" do
