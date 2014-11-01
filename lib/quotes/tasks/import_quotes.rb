@@ -4,12 +4,12 @@ module Quotes
 
       def initialize(files = nil)
         input_files = determine_input(files)
-        @files      = determine_file_types(input_files)
-        @gateway    = Gateways::QuotesGateway.new
+        @files = determine_file_types(input_files)
+        @gateway = Gateways::QuotesGateway.new
       end
 
       def run
-        quotes        = import_quotes
+        quotes = import_quotes
         unique_quotes = remove_duplicates quotes
 
         add_to_gateway unique_quotes
