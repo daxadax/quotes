@@ -13,30 +13,45 @@ module Support
 
     def build_quote(options = {})
       added_by = options[:added_by] || 23
-      author = options[:author]  || 'Author'
-      title = options[:title]   || 'Title'
       content = options[:content] || 'Content'
+      publication_uid= options[:publication_uid] || 99
 
-      Quotes::Entities::Quote.new(added_by, author, title, content, options)
+      Quotes::Entities::Quote.new(added_by, content, publication_uid, options)
+    end
+
+    def build_publication(uid, options = {})
+      author = options[:author] || 'Author'
+      title = options[:title] || 'Title'
+      publisher = options[:publisher] || 'Publisher'
+      year = options[:year] || 1963
+      uid = uid
+
+      Quotes::Entities::Publication.new(author, title, publisher, year, uid)
     end
 
     def build_serialized_quote(options = {})
       added_by = options[:added_by] || 23
-      author = options[:author]  || 'Author'
-      title = options[:title]   || 'Title'
       content = options[:content] || 'Content'
+      publication_uid = options[:publication_uid] || 99
 
       {
-        :added_by => added_by,
-        :author => author,
-        :title => title,
-        :content => content,
         :uid => options[:uid] || nil,
-        :publisher => options[:publisher] || nil,
-        :year => options[:year] || nil,
+        :added_by => added_by,
+        :content => content,
+        :publication_uid => publication_uid,
         :page_number => options[:page_number] || nil,
         :tags => build_tags(options),
         :links => build_links(options)
+      }
+    end
+
+    def build_serialized_publication
+      {
+        :uid => 99,
+        :author => 'author',
+        :title => 'title',
+        :publisher => 'publisher',
+        :year => 1999
       }
     end
 
