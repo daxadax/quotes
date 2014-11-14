@@ -1,9 +1,6 @@
-require 'bound'
-
 module Quotes
   module UseCases
     class CreateQuote < UseCase
-
       Result = Bound.required(:error, :uid)
 
       def initialize(input)
@@ -26,16 +23,15 @@ module Quotes
 
       def build_quote
         added_by = user_uid
-        author = quote.delete(:author)
-        title = quote.delete(:title)
         content = quote.delete(:content)
+        publication_uid = quote.delete(:publication_uid)
         options = quote
 
-        Entities::Quote.new(added_by, author, title, content, options)
+        Entities::Quote.new(added_by, content, publication_uid, options)
       end
 
       def add_to_gateway(quote)
-        gateway.add quote
+        quotes_gateway.add quote
       end
 
       def user_uid
@@ -50,9 +46,9 @@ module Quotes
         return false unless user_uid.kind_of?(Integer)
         return false unless quote.kind_of?(Hash)
 
-        %i[author title content].each do |required|
+        %i[content publication_uid].each do |required|
           return false if quote[required].nil?
-          return false if quote[required].empty?
+          return false if quote[required].to_s.empty?
         end
 
         true
