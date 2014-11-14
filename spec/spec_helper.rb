@@ -6,65 +6,25 @@ $LOAD_PATH.unshift('lib', 'spec')
 Dir.glob('./spec/support/*.rb')  { |f| require f }
 
 require 'quotes'
-
 ENV['test'] = '1'
-
-
-class FakeGatewayBackend
-
-  def initialize
-    @memories = Hash.new
-    @next_uid = 0
-  end
-
-  def reset
-    @memories.clear
-    @next_uid = 0
-  end
-
-  def insert(quote)
-    quote[:uid] = next_uid
-
-    @memories[quote[:uid]] = quote
-    quote[:uid]
-  end
-
-  def get(uid)
-    @memories[uid]
-  end
-
-  def all
-    @memories.values
-  end
-
-  def update(quote)
-    @memories[quote[:uid]] = quote
-    quote[:uid]
-  end
-
-  def delete(uid)
-    @memories.delete(uid)
-  end
-
-  private
-
-  def next_uid
-    @next_uid += 1
-  end
-
-end
 
 class Minitest::Spec
   include Support::AssertionHelpers
   include Support::FactoryHelpers
   include Quotes
 
-  @@gateway_backend_stub = FakeGatewayBackend.new
 
-  Quotes::Gateways::Gateway.send(:define_method, :backend_for_quotes) do
-    @@gateway_backend_stub
   end
 
-  after { @@gateway_backend_stub.reset }
+  end
+
+  def quotes_gateway
+    Quotes::Gateways::QuotesGateway.new @@fake_quotes_backend
+  end
+
+  def publications_gateway
+    Quotes::Gateways::PublicationsGateway.new @@fake_publications_backend
+  end
+
 
 end
