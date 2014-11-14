@@ -1,5 +1,3 @@
-require 'bound'
-
 module Quotes
   module UseCases
     class Search < UseCase
@@ -16,7 +14,7 @@ module Quotes
       end
 
       def call
-        return build_result(searchable) if blank_query
+        return build_result([]) if blank_query
 
         build_result(search_results)
       end
@@ -38,19 +36,14 @@ module Quotes
       end
 
       def search_results
-        searchable.inject([]) do |result, quote|
-          build_search_result(result, quote)
-          result
+        result = []
+        searchable_quotes.each do |quote|
+          result << quote if quote.content.match(/#{query}/i)
         end
+        result
       end
 
-      def build_search_result(result, quote)
-        [ quote.author, quote.title, quote.content].any? do |q|
-          result << quote if q.match(/#{query}/i)
-        end
-      end
-
-      def searchable
+      def searchable_quotes
         return quotes if tags.empty?
         quotes.select { |q| (q.tags & tags) == tags }
       end
@@ -65,8 +58,12 @@ module Quotes
         query.nil? || query.empty?
       end
 
+      def publications
+        @__publications ||= publications_gateway.all
+      end
+
       def quotes
-        @quotes ||= gateway.all
+        @__quotes ||= quotes_gateway.all
       end
 
       def query
