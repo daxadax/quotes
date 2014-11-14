@@ -3,8 +3,6 @@ require 'spec_helper'
 class QuoteBoundarySpec < ServiceSpec
   let(:options_for_quote) do
     {
-      :publisher => 'publishing house',
-      :year => 1866,
       :page_number => 23,
       :tags => %w[some fake tag],
       :links => [24, 36]
@@ -23,24 +21,12 @@ class QuoteBoundarySpec < ServiceSpec
     assert_equal quote.added_by, result.added_by
   end
 
-  it "grants access to author" do
-    assert_equal quote.author,  result.author
-  end
-
-  it "grants access to title" do
-    assert_equal quote.title, result.title
+  it 'grants access to publication_uid' do
+    assert_equal quote.publication_uid, result.publication_uid
   end
 
   it "grants access to content" do
     assert_equal quote.content, result.content
-  end
-
-  it "grants access to publisher" do
-    assert_equal quote.publisher, result.publisher
-  end
-
-  it "grants access to year" do
-    assert_equal quote.year,  result.year
   end
 
   it "grants access to page_number" do
