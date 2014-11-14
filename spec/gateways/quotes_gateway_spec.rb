@@ -2,12 +2,11 @@ require 'spec_helper'
 
 class QuotesGatewaySpec < Minitest::Spec
 
-  let(:backend)   { FakeBackend.new }
-  let(:gateway)   { Gateways::QuotesGateway.new(backend) }
-  let(:quote)     { build_quote }
+  let(:backend) { FakeBackend.new }
+  let(:gateway) { Gateways::QuotesGateway.new(backend) }
+  let(:quote) { build_quote }
   let(:updated_quote) do
     build_quote(
-      :author     => "New Author",
       :uid         => "test_quote_uid",
       :links      => [24, 36]
     )
@@ -35,11 +34,11 @@ class QuotesGatewaySpec < Minitest::Spec
 
     it "serializes the quote and delegates it to the backend" do
       quote_uid = add_quote
-      result    = gateway.get(quote_uid)
+      result = gateway.get(quote_uid)
 
-      assert_equal result.author,   quote.author
-      assert_equal result.title,    quote.title
-      assert_equal result.content,  quote.content
+      assert_equal result.added_by, quote.added_by
+      assert_equal result.content, quote.content
+      assert_equal result.publication_uid, quote.publication_uid
     end
 
     describe "with tags" do
@@ -48,7 +47,7 @@ class QuotesGatewaySpec < Minitest::Spec
 
       it "normalizes tags before storing them" do
         quote_uid = add_quote
-        result    = gateway.get(quote_uid)
+        result = gateway.get(quote_uid)
 
         refute_equal tags,        result.tags
         assert_equal 'upcase',    result.tags[0]
@@ -79,18 +78,17 @@ class QuotesGatewaySpec < Minitest::Spec
 
       refute_equal quote, result
       assert_equal quote_uid, result.uid
-      assert_equal 'New Author',  result.author
-      assert_equal quote.title,   result.title
       assert_equal quote.content, result.content
-      assert_equal quote.tags,    result.tags
-      assert_equal [24, 36],      result.links
+      assert_equal result.publication_uid, quote.publication_uid
+      assert_equal quote.tags, result.tags
+      assert_equal [24, 36], result.links
     end
 
   end
 
   describe "all" do
-    let(:quote_two)   { build_quote(:author => "someone_else") }
-    let(:quote_three) { build_quote(:author => "another_one") }
+    let(:quote_two)   { build_quote(:content => "different") }
+    let(:quote_three) { build_quote(:content => "something else") }
     let(:quotes)      { [quote, quote_two, quote_three] }
 
     it "returns an empty array if the backend is empty" do
@@ -101,10 +99,10 @@ class QuotesGatewaySpec < Minitest::Spec
       quotes.each {|q| gateway.add(q)}
       result = gateway.all
 
-      assert_equal 3,               result.size
-      assert_equal "Author",        result[0].author
-      assert_equal "someone_else",  result[1].author
-      assert_equal "another_one",   result[2].author
+      assert_equal 3, result.size
+      assert_equal "Content", result[0].content
+      assert_equal "different", result[1].content
+      assert_equal "something else", result[2].content
     end
   end
 
