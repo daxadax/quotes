@@ -13,9 +13,14 @@ class Minitest::Spec
   include Support::FactoryHelpers
   include Quotes
 
-    service_factory = Quotes::ServiceFactory
-    @@fake_quotes_backend ||=  ::Support::FakeBackend.new
-    @@fake_publications_backend ||= ::Support::FakeBackend.new
+  after do
+    @@fake_quotes_backend.reset
+    @@fake_publications_backend.reset
+  end
+
+  service_factory = Quotes::ServiceFactory
+  @@fake_quotes_backend ||=  ::Support::FakeBackend.new
+  @@fake_publications_backend ||= ::Support::FakeBackend.new
 
   service_factory.register :quotes_backend do
     @@fake_quotes_backend

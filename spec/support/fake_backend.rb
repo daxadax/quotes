@@ -6,6 +6,11 @@ module Support
       @next_uid = 0
     end
 
+    def reset
+      @memories.clear
+      @next_uid = 0
+    end
+
     def insert(object)
       object[:uid] = next_uid
 
