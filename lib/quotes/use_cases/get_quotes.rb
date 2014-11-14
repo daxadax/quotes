@@ -14,7 +14,7 @@ module Quotes
       private
 
       def get_quotes
-        gateway.all.map { |quote| quote_boundary.for quote }
+        quotes_gateway.all.map { |quote| quote_boundary.for quote }
       end
 
     end

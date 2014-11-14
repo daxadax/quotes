@@ -3,16 +3,20 @@ module Quotes
     class UseCase
       include Support::ValidationHelpers
 
-      def gateway
-        @gateway ||= Gateways::QuotesGateway.new
+      def quotes_gateway
+        @__quotes_gateway ||= Gateways::QuotesGateway.new
+      end
+
+      def publications_gateway
+        @__publications_gateway ||= Gateways::PublicationsGateway.new
       end
 
       def quote_boundary
-        @boundary ||= Services::QuoteBoundary.new
+        @__quote_boundary ||= Services::QuoteBoundary.new
       end
 
       def ensure_valid_input!(uid)
-        reason = "The given Quote UID is invalid"
+        reason = "The given UID is invalid"
 
         unless uid.kind_of? Integer || uid.nil?
           raise_argument_error(reason, uid)

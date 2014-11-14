@@ -20,7 +20,7 @@ module Quotes
       private
 
       def get_quote
-        quote = gateway.get(@uid)
+        quote = quotes_gateway.get(@uid)
 
         quote_boundary.for quote
       end

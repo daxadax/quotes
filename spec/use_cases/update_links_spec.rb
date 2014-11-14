@@ -13,8 +13,8 @@ class UpdateLinksSpec < UseCaseSpec
   let(:use_case)  { UseCases::UpdateLinks.new(input) }
 
   describe "call" do
-    let(:result_one)  { gateway.get(quote_one.uid) }
-    let(:result_two)  { gateway.get(quote_two.uid) }
+    let(:result_one)  { quotes_gateway.get(quote_one.uid) }
+    let(:result_two)  { quotes_gateway.get(quote_two.uid) }
 
     describe "with unexpected input" do
       let(:quote_one) { build_quote }

@@ -19,15 +19,15 @@ class DeleteQuoteSpec < UseCaseSpec
         5.times { create_quote }
       end
 
-      let(:quote_uid) { gateway.all.last.uid }
+      let(:quote_uid) { quotes_gateway.all.last.uid }
 
       it "deletes the quote with the given quote_uid" do
-        assert_equal 5, gateway.all.count
+        assert_equal 5, quotes_gateway.all.count
 
         use_case.call
 
-        assert_equal 4, gateway.all.count
-        assert_nil gateway.get(quote_uid)
+        assert_equal 4, quotes_gateway.all.count
+        assert_nil quotes_gateway.get(quote_uid)
       end
     end
 

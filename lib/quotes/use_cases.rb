@@ -7,6 +7,8 @@ require 'quotes/use_cases/delete_quote'
 require 'quotes/use_cases/update_links'
 require 'quotes/use_cases/search'
 
+require 'quotes/use_cases/create_publication'
+
 module Quotes
   module UseCases
   end

@@ -9,7 +9,7 @@ module Quotes
       end
 
       def call
-        gateway.delete(@uid)
+        quotes_gateway.delete(@uid)
       end
 
     end

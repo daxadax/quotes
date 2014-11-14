@@ -1,20 +1,17 @@
-require 'bound'
-
 module Quotes
   module UseCases
     class UpdateQuote < UseCase
 
-      Success = Bound.required(:uid)
-      Failure = Bound.new
+      Result = Bound.required(:error, :uid)
 
       def initialize(input)
         @quote = input[:quote]
       end
 
       def call
-        return Failure.new if invalid?
+        return Result.new(:error => :invalid_input, :uid => nil) unless valid?
 
-        Success.new(:uid => update_quote )
+        Result.new(:error => nil, :uid => update_quote)
       end
 
       private
@@ -25,30 +22,29 @@ module Quotes
 
       def build_quote
         added_by = quote.delete(:added_by)
-        author  = quote.delete(:author)
-        title   = quote.delete(:title)
         content = quote.delete(:content)
+        publication_uid = quote.delete(:publication_uid)
         options = quote
 
-        Entities::Quote.new(added_by, author, title, content, options)
+        Entities::Quote.new(added_by, content, publication_uid, options)
       end
 
       def update_in_gateway(quote)
-        gateway.update quote
+        quotes_gateway.update quote
       end
 
       def quote
         @quote
       end
 
-      def invalid?
-        return true if quote.nil? || quote.empty?
-        return true if quote[:uid].nil? || !quote[:uid].kind_of?(Integer)
+      def valid?
+        return false if quote.nil? || quote.empty?
+        return false if quote[:uid].nil? || !quote[:uid].kind_of?(Integer)
 
-        [quote[:author], quote[:title], quote[:content]].each do |required|
-          return true if required.nil? || required.empty?
+        [quote[:added_by], quote[:content], quote[:publication_uid]].each do |required|
+          return false if required.nil? || required.to_s.empty?
         end
-        false
+        true
       end
 
     end

@@ -18,12 +18,9 @@ class GetQuoteSpec < UseCaseSpec
     end
 
     it "retrieves the quote with the given quote_uid as a bound object" do
-      assert_kind_of UseCases::GetQuote::Result, result
-
-      assert_equal quote.uid,     result.quote.uid
-      assert_equal quote.author,  result.quote.author
-      assert_equal quote.title,   result.quote.title
+      assert_equal quote.uid, result.quote.uid
       assert_equal quote.content, result.quote.content
+      assert_equal quote.publication_uid, result.quote.publication_uid
     end
   end
 
