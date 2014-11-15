@@ -2,11 +2,11 @@ module Quotes
   class ServiceFactory < ServiceRegistration
 
     ServiceRegistration.register :quotes_backend do
-      raise "\n\n~~~~~{[  implement me  ]}~~~~~\n\n"
+      raise "\n\n~~~~~{[  No registration found for :quotes_backend  ]}~~~~~\n\n"
     end
 
     ServiceRegistration.register :publications_backend do
-      raise "\n\n~~~~~{[  implement me  ]}~~~~~\n\n"
+      raise "\n\n~~~~~{[  No registration found for :publications_backend  ]}~~~~~\n\n"
     end
 
   end
