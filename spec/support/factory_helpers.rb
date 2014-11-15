@@ -4,11 +4,10 @@ module Support
   module FactoryHelpers
 
     def create_quote(options = {})
-      options.merge(:publication_uid => create_publication)
-
+      options[:publication_uid] = create_publication(options)
       quote = build_quote(options)
-
       uid = quotes_gateway.add quote
+
       quotes_gateway.get uid
     end
 
