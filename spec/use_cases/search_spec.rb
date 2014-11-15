@@ -8,10 +8,7 @@ class SearchSpec < UseCaseSpec
   end
   let(:use_case)  { UseCases::Search.new(input) }
 
-  before do
-     skip
-     quotes
-  end
+  before { create_quotes_for_test }
 
   describe "call" do
     let(:result) { use_case.call }
@@ -29,20 +26,22 @@ class SearchSpec < UseCaseSpec
     describe "text search" do
       let(:query) { 'author 25' }
 
-      it "returns results for the given query" do
-        assert_equal 1, result.quotes.count
-
-        assert_equal 'Author 25',               result.quotes[0].author
-        assert_equal 'Title 25',                result.quotes[0].title
-        assert_includes result.quotes[0].tags,  'tag_25a'
-        assert_equal query,                     result.query
+      it "flag returns results for the given query" do
+        assert_equal 'author 25', result.query
         assert_empty result.tags
+        assert_equal 1, result.publications.size
+        assert_equal 1, result.quotes.size
       end
 
-      describe "does not include text from tags" do
+      describe "text from tags" do
         let(:query) { '[author 23]' }
 
-        it { assert_empty result.quotes }
+        it 'is not included in the text search' do
+          assert_empty result.query
+          assert_equal ['author 23'], result.tags
+          assert_equal 0, result.publications.size
+          assert_equal 0, result.quotes.size
+        end
       end
     end
 
@@ -50,10 +49,11 @@ class SearchSpec < UseCaseSpec
       describe "with no matching tags" do
         let(:query) { '[nothing here]' }
 
-        it "returns an empty array" do
-          assert_empty result.quotes
+        it "returns no results" do
           assert_empty result.query
           assert_equal ['nothing here'], result.tags
+          assert_equal 0, result.publications.size
+          assert_equal 0, result.quotes.size
         end
       end
 
@@ -61,12 +61,14 @@ class SearchSpec < UseCaseSpec
         let(:query) { '[tag_1]' }
 
         it "returns results with a matching tag" do
-          assert_equal 10, result.quotes.count
+          assert_empty result.query
+          assert_equal ['tag_1'], result.tags
+          assert_equal 0, result.publications.size
+          assert_equal 10, result.quotes.size
 
           result.quotes.each do |quote|
             assert_includes quote.tags, 'tag_1'
           end
-          assert_equal ['tag_1'], result.tags
         end
       end
 
@@ -74,9 +76,10 @@ class SearchSpec < UseCaseSpec
         let(:query) { '[tag_0] [two tags]' }
 
         it "returns results that have both tags" do
-          assert_equal 2, result.quotes.count
           assert_empty result.query
           assert_equal ['tag_0', 'two tags'], result.tags
+          assert_equal 0, result.publications.size
+          assert_equal 2, result.quotes.size
         end
       end
 
@@ -85,21 +88,20 @@ class SearchSpec < UseCaseSpec
     describe "text and tag search" do
       let(:query) { '[tag_0] [two tags] author 19' }
 
-      it "returns items with matching tags and text" do
-        assert_equal 1, result.quotes.count
-
-        assert_equal "Author 19", result.quotes[0].author
+      it "returns results for the given query after filtering by tags" do
         assert_equal 'author 19', result.query
         assert_equal ['tag_0', 'two tags'], result.tags
+        assert_equal 1, result.publications.size
+        assert_equal 1, result.quotes.size
       end
     end
   end
 
   private
 
-  def quotes
+  def create_quotes_for_test
     @quotes ||= 50.times.map do |i|
-      create_quote(build_options(i))
+      create_quote(build_options(i+1))
     end
   end
 

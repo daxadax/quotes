@@ -6,6 +6,7 @@ module Quotes
       Result  = Bound.required(
         :query,
         :tags,
+        :publications,
         :quotes => [Quote]
       )
 
@@ -14,18 +15,17 @@ module Quotes
       end
 
       def call
-        return build_result([]) if blank_query
-
-        build_result(search_results)
+        build_result
       end
 
       private
 
-      def build_result(quotes)
+      def build_result
         Result.new(
-          :quotes => build_boundaries_from(quotes),
           :query  => query,
-          :tags   => tags
+          :tags   => tags,
+          :publications => publications_result,
+          :quotes => build_boundaries_from(quotes_result),
         )
       end
 
@@ -35,12 +35,33 @@ module Quotes
         end
       end
 
-      def search_results
-        result = []
-        searchable_quotes.each do |quote|
-          result << quote if quote.content.match(/#{query}/i)
+      def quotes_result
+        @quotes_result ||= search_quotes.uniq
+      end
+
+      def publications_result
+        @publications_result ||= search_publications.uniq
+      end
+
+      def search_publications
+        return [] if blank_query?
+
+        @publications_result = publications.inject([]) do |result, publication|
+          result << publication.uid if publication.author.match(/#{query}/i)
+          result << publication.uid if publication.title.match(/#{query}/i)
+          result
         end
-        result
+      end
+
+      def search_quotes
+        return [] if tags.empty? && blank_query?
+        return searchable_quotes if blank_query?
+
+        searchable_quotes.inject([]) do |result, quote|
+          result << quote if quote.content.match(/#{query}/i)
+          result << quote if publications_result.include? quote.publication_uid
+          result
+        end
       end
 
       def searchable_quotes
@@ -54,16 +75,16 @@ module Quotes
         end
       end
 
-      def blank_query
+      def blank_query?
         query.nil? || query.empty?
       end
 
       def publications
-        @__publications ||= publications_gateway.all
+        @publications ||= publications_gateway.all
       end
 
       def quotes
-        @__quotes ||= quotes_gateway.all
+        @quotes ||= quotes_gateway.all
       end
 
       def query
