@@ -4,15 +4,19 @@ module Quotes
       include Support::ValidationHelpers
 
       def quotes_gateway
-        @__quotes_gateway ||= Gateways::QuotesGateway.new
+        @quotes_gateway ||= Gateways::QuotesGateway.new
       end
 
       def publications_gateway
-        @__publications_gateway ||= Gateways::PublicationsGateway.new
+        @publications_gateway ||= Gateways::PublicationsGateway.new
       end
 
       def quote_boundary
-        @__quote_boundary ||= Services::QuoteBoundary.new
+        @quote_boundary ||= Services::QuoteBoundary.new
+      end
+
+      def publication_boundary
+        @publication_boundary ||= Services::PublicationBoundary.new
       end
 
       def ensure_valid_input!(uid)
