@@ -27,7 +27,7 @@ class GetQuotesSpec < UseCaseSpec
         assert_equal 1, first_result.uid
         assert_equal 23, first_result.added_by
         assert_equal 'Content', first_result.content
-        assert_equal 99, first_result.publication_uid
+        assert_equal 1, first_result.publication_uid
       end
     end
   end

@@ -4,7 +4,7 @@ module Support
   module FactoryHelpers
 
     def create_quote(options = {})
-      options[:publication_uid] = create_publication(options)
+      options[:publication_uid] = create_publication(options).uid
       quote = build_quote(options)
       uid = quotes_gateway.add quote
 
@@ -21,8 +21,9 @@ module Support
 
     def create_publication(options = {})
       publication = build_publication(nil, options)
+      uid = publications_gateway.add publication
 
-      publications_gateway.add publication
+      publications_gateway.get uid
     end
 
     def build_publication(uid, options = {})
