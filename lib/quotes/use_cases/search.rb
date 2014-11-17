@@ -1,3 +1,5 @@
+require 'bound'
+
 module Quotes
   module UseCases
     class Search < UseCase
@@ -6,7 +8,6 @@ module Quotes
       Result  = Bound.required(
         :query,
         :tags,
-        :publications,
         :quotes => [Quote]
       )
 
@@ -15,17 +16,16 @@ module Quotes
       end
 
       def call
-        build_result
+        build_result(search_results)
       end
 
       private
 
-      def build_result
+      def build_result(quotes)
         Result.new(
+          :quotes => build_boundaries_from(quotes),
           :query  => query,
-          :tags   => tags,
-          :publications => publications_result,
-          :quotes => build_boundaries_from(quotes_result),
+          :tags   => tags
         )
       end
 
@@ -35,36 +35,21 @@ module Quotes
         end
       end
 
-      def quotes_result
-        @quotes_result ||= search_quotes.uniq
-      end
-
-      def publications_result
-        @publications_result ||= search_publications.uniq
-      end
-
-      def search_publications
-        return [] if blank_query?
-
-        @publications_result = publications.inject([]) do |result, publication|
-          result << publication.uid if publication.author.match(/#{query}/i)
-          result << publication.uid if publication.title.match(/#{query}/i)
+      def search_results
+        searchable.inject([]) do |result, quote|
+          build_search_result(result, quote)
           result
         end
       end
 
-      def search_quotes
-        return [] if tags.empty? && blank_query?
-        return searchable_quotes if blank_query?
-
-        searchable_quotes.inject([]) do |result, quote|
-          result << quote if quote.content.match(/#{query}/i)
-          result << quote if publications_result.include? quote.publication_uid
-          result
+      def build_search_result(result, quote)
+        [ quote.author, quote.title, quote.content].any? do |q|
+          result << quote if q.match(/#{query}/i)
         end
       end
 
-      def searchable_quotes
+      def searchable
+        return [] if blank_query && tags.empty?
         return quotes if tags.empty?
         quotes.select { |q| (q.tags & tags) == tags }
       end
@@ -75,12 +60,8 @@ module Quotes
         end
       end
 
-      def blank_query?
+      def blank_query
         query.nil? || query.empty?
-      end
-
-      def publications
-        @publications ||= publications_gateway.all
       end
 
       def quotes
