@@ -1,6 +1,7 @@
 require 'spec_helper'
+require 'support/fake_gateway_access'
 
-class ImportQuotesSpec < Minitest::Spec
+class ImportQuotesSpec < FakeGatewayAccess
 
   before { skip }
 

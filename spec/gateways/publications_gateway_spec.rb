@@ -1,9 +1,8 @@
 require 'spec_helper'
 
-class PublicationsGatewaySpec < Minitest::Spec
+class PublicationsGatewaySpec < GatewaySpec
 
-  let(:backend) { FakeBackend.new }
-  let(:gateway) { Gateways::PublicationsGateway.new(backend) }
+  let(:gateway) { Gateways::PublicationsGateway.new }
   let(:publication) { build_publication(nil) }
   let(:updated_publication) do
     options = {
@@ -11,7 +10,7 @@ class PublicationsGatewaySpec < Minitest::Spec
       :year => 1999
     }
 
-    build_publication('test_uid', options)
+    build_publication(1, options)
   end
   let(:add_publication) { gateway.add(publication) }
 
@@ -31,7 +30,7 @@ class PublicationsGatewaySpec < Minitest::Spec
     it "returns the uid of the inserted publication on success" do
       uid = add_publication
 
-      assert_equal 'test_uid', uid
+      assert_equal 1, uid
     end
 
     it "serializes the publication and delegates it to the backend" do
@@ -108,39 +107,5 @@ class PublicationsGatewaySpec < Minitest::Spec
       assert_nil gateway.get(uid)
     end
   end
-
-  class FakeBackend
-
-    def initialize
-      @memory = []
-    end
-
-    def insert(publication)
-      publication[:uid] = 'test_uid'
-
-      @memory << publication
-
-      publication[:uid]
-    end
-
-    def get(uid)
-      @memory.select{ |p| p[:uid] == uid}.first
-    end
-
-    def update(publication)
-      @memory.delete_if {|p| p[:uid] == publication[:uid]}
-      @memory << publication
-    end
-
-    def all
-      @memory
-    end
-
-    def delete(uid)
-      @memory.delete_if {|p| p[:uid] == uid}
-    end
-
-  end
-
 
 end

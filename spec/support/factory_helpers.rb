@@ -4,7 +4,7 @@ module Support
   module FactoryHelpers
 
     def create_quote(options = {})
-      options[:publication_uid] = create_publication(options).uid
+      options[:publication] = create_publication(options)
       quote = build_quote(options)
       uid = quotes_gateway.add quote
 
@@ -14,9 +14,9 @@ module Support
     def build_quote(options = {})
       added_by = options[:added_by] || 23
       content = options[:content] || 'Content'
-      publication_uid= options[:publication_uid] || 99
+      publication = options[:publication] || build_publication(1)
 
-      Quotes::Entities::Quote.new(added_by, content, publication_uid, options)
+      Quotes::Entities::Quote.new(added_by, content, publication, options)
     end
 
     def create_publication(options = {})
@@ -39,7 +39,7 @@ module Support
     def build_serialized_quote(options = {})
       added_by = options[:added_by] || 23
       content = options[:content] || 'Content'
-      publication_uid = options[:publication_uid] || 99
+      publication_uid = options[:publication_uid] || create_publication.uid
 
       {
         :uid => options[:uid] || nil,

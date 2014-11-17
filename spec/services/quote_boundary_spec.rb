@@ -41,4 +41,20 @@ class QuoteBoundarySpec < ServiceSpec
     assert_equal quote.links, result.links
   end
 
+  it "grants access to author" do
+    assert_equal quote.author, result.author
+  end
+
+  it "grants access to title" do
+    assert_equal quote.title, result.title
+  end
+
+  it "grants access to publisher" do
+    assert_equal quote.publisher, result.publisher
+  end
+
+  it "grants access to year" do
+    assert_equal quote.year, result.year
+  end
+
 end

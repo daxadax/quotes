@@ -23,10 +23,10 @@ module Quotes
       def build_quote
         added_by = quote.delete(:added_by)
         content = quote.delete(:content)
-        publication_uid = quote.delete(:publication_uid)
+        publication = publications_gateway.get(quote.delete(:publication_uid))
         options = quote
 
-        Entities::Quote.new(added_by, content, publication_uid, options)
+        Entities::Quote.new(added_by, content, publication, options)
       end
 
       def update_in_gateway(quote)

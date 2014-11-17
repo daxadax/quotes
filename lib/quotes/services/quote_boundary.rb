@@ -7,7 +7,11 @@ module Quotes
       Quote = Bound.required(
         :uid,
         :added_by,
+        :author,
+        :title,
         :content,
+        :publisher,
+        :year,
         :publication_uid,
         :page_number,
         :tags,
@@ -24,7 +28,11 @@ module Quotes
         Quote.new(
           :uid => quote.uid,
           :added_by => quote.added_by,
+          :author => quote.author,
+          :title => quote.title,
           :content => quote.content,
+          :publisher => quote.publisher,
+          :year => quote.year,
           :publication_uid => quote.publication_uid,
           :page_number => quote.page_number,
           :tags => quote.tags,

@@ -61,7 +61,7 @@ module Quotes
 
           added_by = quote[:added_by]
           content = quote[:content]
-          publication_uid = quote[:publication_uid]
+          publication = build_publication(quote)
           options = {
             :uid => quote[:uid],
             :page_number => quote[:page_number],
@@ -69,7 +69,17 @@ module Quotes
             :links => JSON.parse(quote[:links])
           }
 
-          Entities::Quote.new(added_by, content, publication_uid, options)
+          Entities::Quote.new(added_by, content, publication, options)
+        end
+
+        def self.build_publication(quote)
+          author = quote[:author]
+          title = quote[:title]
+          publisher = quote[:publisher]
+          year = quote[:year]
+          uid = quote[:publication_uid]
+
+          Entities::Publication.new(author, title, publisher, year, uid)
         end
 
       end

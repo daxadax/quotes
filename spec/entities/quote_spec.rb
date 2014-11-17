@@ -1,20 +1,24 @@
 require 'spec_helper'
 
-class QuoteSpec < Minitest::Spec
+class QuoteSpec < MiniTest::Spec
   let(:added_by) { 23 }
   let(:content) { 'four score and...' }
-  let(:publication_uid) { 99 }
+  let(:publication) { build_publication(1) }
   let(:options) { {} }
 
   let(:quote) do
-    Entities::Quote.new(added_by, content, publication_uid, options)
+    Entities::Quote.new(added_by, content, publication, options)
   end
 
   describe 'construction' do
-    it 'can be built with two arguments and the publication_uid it belongs to' do
+    it 'can be built with two arguments and the publication it belongs to' do
       assert_equal 23, quote.added_by
       assert_equal 'four score and...', quote.content
-      assert_equal publication_uid, quote.publication_uid
+      assert_equal publication.uid, quote.publication_uid
+      assert_equal publication.author, quote.author
+      assert_equal publication.title, quote.title
+      assert_equal publication.publisher, quote.publisher
+      assert_equal publication.year, quote.year
     end
 
     it "has sane defaults for non-required arguments" do
@@ -26,10 +30,18 @@ class QuoteSpec < Minitest::Spec
 
     describe 'without' do
 
-      describe 'publication_uid' do
-        let(:publication_uid) { nil }
+      describe 'publication' do
+        describe 'needs to be a publication entity' do
+          let(:publication) { "I'm not a publication entity" }
 
-        it('fails') {assert_failure{quote}}
+          it('fails') {assert_failure{quote}}
+        end
+
+        describe 'needs to be persisted' do
+          let(:publication) { build_publication(nil) }
+
+          it('fails') {assert_failure{quote}}
+        end
       end
 
       describe 'added_by' do

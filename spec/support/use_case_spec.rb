@@ -1,5 +1,6 @@
 require 'spec_helper'
+require 'support/fake_gateway_access'
 
-class UseCaseSpec < Minitest::Spec
+class UseCaseSpec < FakeGatewayAccess
 
 end

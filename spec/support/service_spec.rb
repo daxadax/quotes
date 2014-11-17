@@ -1,2 +1,5 @@
-class ServiceSpec < Minitest::Spec
+require 'spec_helper'
+require 'support/fake_gateway_access'
+
+class ServiceSpec < FakeGatewayAccess
 end

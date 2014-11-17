@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-class QuotesGatewaySpec < Minitest::Spec
+class QuotesGatewaySpec < GatewaySpec
 
-  let(:backend) { FakeBackend.new }
-  let(:gateway) { Gateways::QuotesGateway.new(backend) }
-  let(:quote) { build_quote }
+  let(:gateway) { Gateways::QuotesGateway.new }
+  let(:publication) { create_publication }
+  let(:quote) { build_quote(:publication_uid => publication.uid) }
   let(:updated_quote) do
     build_quote(
-      :uid         => "test_quote_uid",
+      :uid         => 1,
       :links      => [24, 36]
     )
   end
@@ -29,7 +29,7 @@ class QuotesGatewaySpec < Minitest::Spec
     it "returns the uid of the inserted quote on success" do
       quote_uid = add_quote
 
-      assert_equal 'test_quote_uid', quote_uid
+      assert_equal 1, quote_uid
     end
 
     it "serializes the quote and delegates it to the backend" do
@@ -39,20 +39,24 @@ class QuotesGatewaySpec < Minitest::Spec
       assert_equal result.added_by, quote.added_by
       assert_equal result.content, quote.content
       assert_equal result.publication_uid, quote.publication_uid
+      assert_equal result.author, publication.author
+      assert_equal result.title, publication.title
+      assert_equal result.publisher, publication.publisher
+      assert_equal result.year, publication.year
     end
 
     describe "with tags" do
       let(:tags)  { ['UPCASE', 'CraZYcASe', 'downcase'] }
-      let(:quote) { build_quote(:tags => tags) }
+      let(:quote) { build_quote(:tags => tags, :publication_uid => publication.uid) }
 
       it "normalizes tags before storing them" do
         quote_uid = add_quote
         result = gateway.get(quote_uid)
 
-        refute_equal tags,        result.tags
-        assert_equal 'upcase',    result.tags[0]
+        refute_equal tags, result.tags
+        assert_equal 'upcase', result.tags[0]
         assert_equal 'crazycase', result.tags[1]
-        assert_equal 'downcase',  result.tags[2]
+        assert_equal 'downcase', result.tags[2]
       end
     end
   end
@@ -80,6 +84,10 @@ class QuotesGatewaySpec < Minitest::Spec
       assert_equal quote_uid, result.uid
       assert_equal quote.content, result.content
       assert_equal result.publication_uid, quote.publication_uid
+      assert_equal result.author, publication.author
+      assert_equal result.title, publication.title
+      assert_equal result.publisher, publication.publisher
+      assert_equal result.year, publication.year
       assert_equal quote.tags, result.tags
       assert_equal [24, 36], result.links
     end
@@ -119,38 +127,5 @@ class QuotesGatewaySpec < Minitest::Spec
 
       assert_nil gateway.get(uid)
     end
-  end
-
-  class FakeBackend
-
-    def initialize
-      @memory = []
-    end
-
-    def insert(quote)
-      quote[:uid] = 'test_quote_uid'
-
-      @memory << quote
-
-      quote[:uid]
-    end
-
-    def get(uid)
-      @memory.select{ |q| q[:uid] == uid}.first
-    end
-
-    def update(quote)
-      @memory.delete_if {|q| q[:uid] == quote[:uid]}
-      @memory << quote
-    end
-
-    def all
-      @memory
-    end
-
-    def delete(uid)
-      @memory.delete_if {|q| q[:uid] == uid}
-    end
-
   end
 end

@@ -4,10 +4,9 @@ class UpdateQuoteSpec < UseCaseSpec
 
   let(:options) do
     {
-      :uid       => 1,
-      :content  => 'updated content',
-      :publication_uid => 1000,
-      :tags     => ['some', 'updated', 'tags'],
+      :uid => 1,
+      :content => 'updated content',
+      :tags => ['some', 'updated', 'tags'],
       :no_json  => true
     }
   end
@@ -79,8 +78,12 @@ class UpdateQuoteSpec < UseCaseSpec
         assert_equal 1, loaded_quote.uid
         assert_equal 23, loaded_quote.added_by
         assert_equal 'updated content', loaded_quote.content
-        assert_equal 1000, loaded_quote.publication_uid
+        assert_equal 2, loaded_quote.publication_uid
         assert_equal 3, loaded_quote.tags.size
+        assert_equal 'Author', loaded_quote.author
+        assert_equal 'Title', loaded_quote.title
+        assert_equal 'Publisher', loaded_quote.publisher
+        assert_equal 1963, loaded_quote.year
       end
     end
 

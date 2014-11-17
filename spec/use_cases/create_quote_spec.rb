@@ -59,7 +59,11 @@ class CreateQuoteSpec < UseCaseSpec
       assert_equal 1, loaded_quote.uid
       assert_equal 1, loaded_quote.added_by
       assert_equal 'Content', loaded_quote.content
-      assert_equal 99, loaded_quote.publication_uid
+      assert_equal 1, loaded_quote.publication_uid
+      assert_equal 'Author', loaded_quote.author
+      assert_equal 'Title', loaded_quote.title
+      assert_equal 'Publisher', loaded_quote.publisher
+      assert_equal 1963, loaded_quote.year
     end
 
     it "returns the uid of the newly created quote on success" do
