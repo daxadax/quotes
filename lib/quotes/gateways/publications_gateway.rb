@@ -45,7 +45,7 @@ module Quotes
 
         def self.dump(publication)
           {
-            :uid => publication.uid,
+            :publication_uid => publication.uid,
             :author => publication.author,
             :title => publication.title,
             :publisher => publication.publisher,
@@ -60,7 +60,7 @@ module Quotes
           title = publication[:title]
           publisher = publication[:publisher]
           year = publication[:year]
-          uid = publication[:uid]
+          uid = publication[:publication_uid]
 
           Entities::Publication.new(author, title, publisher, year, uid)
         end
