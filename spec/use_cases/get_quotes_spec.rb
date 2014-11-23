@@ -20,14 +20,14 @@ class GetQuotesSpec < UseCaseSpec
         50.times { create_quote }
       end
 
-      it "retrieves all quotes from the backend in the form of bound objects" do
+      it "retrieves all quotes from the backend sorted by most recent" do
         assert_equal 50, result.quotes.size
         assert_kind_of Services::QuoteBoundary::Quote,  first_result
 
-        assert_equal 1, first_result.uid
+        assert_equal 50, first_result.uid
         assert_equal 23, first_result.added_by
         assert_equal 'Content', first_result.content
-        assert_equal 1, first_result.publication_uid
+        assert_equal 50, first_result.publication_uid
       end
     end
   end
