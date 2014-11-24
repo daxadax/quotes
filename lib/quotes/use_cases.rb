@@ -9,6 +9,7 @@ require 'quotes/use_cases/search'
 
 require 'quotes/use_cases/create_publication'
 require 'quotes/use_cases/get_publication'
+require 'quotes/use_cases/get_publications'
 
 module Quotes
   module UseCases
