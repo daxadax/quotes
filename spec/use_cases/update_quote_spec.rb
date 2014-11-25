@@ -11,7 +11,7 @@ class UpdateQuoteSpec < UseCaseSpec
     }
   end
   let(:quote) { build_serialized_quote(options) }
-  let(:input) { {:quote => quote} }
+  let(:input) { {:user_uid => 23, :quote => quote} }
   let(:use_case) { UseCases::UpdateQuote.new(input) }
 
   describe "call" do

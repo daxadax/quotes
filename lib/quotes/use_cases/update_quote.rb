@@ -5,6 +5,7 @@ module Quotes
       Result = Bound.required(:error, :uid)
 
       def initialize(input)
+        @user_uid = input[:user_uid]
         @quote = input[:quote]
       end
 
@@ -21,7 +22,7 @@ module Quotes
       end
 
       def build_quote
-        added_by = quote.delete(:added_by)
+        added_by = user_uid
         content = quote.delete(:content)
         publication = publications_gateway.get(quote.delete(:publication_uid))
         options = quote
@@ -35,6 +36,10 @@ module Quotes
 
       def quote
         @quote
+      end
+
+      def user_uid
+        @user_uid
       end
 
       def valid?
