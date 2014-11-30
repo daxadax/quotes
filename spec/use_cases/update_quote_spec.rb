@@ -11,7 +11,8 @@ class UpdateQuoteSpec < UseCaseSpec
     }
   end
   let(:quote) { build_serialized_quote(options) }
-  let(:input) { {:user_uid => 23, :quote => quote} }
+  let(:user_uid) { 23 }
+  let(:input) { {:user_uid => user_uid, :quote => quote} }
   let(:use_case) { UseCases::UpdateQuote.new(input) }
 
   describe "call" do
@@ -61,6 +62,15 @@ class UpdateQuoteSpec < UseCaseSpec
 
         it "fails" do
           assert_equal :invalid_input, result.error
+          assert_nil result.uid
+        end
+      end
+
+      describe 'with wrong user_uid' do
+        let(:user_uid) { 78 }
+
+        it 'fails' do
+          assert_equal :invalid_user, result.error
           assert_nil result.uid
         end
       end

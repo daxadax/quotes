@@ -10,15 +10,18 @@ module Quotes
       end
 
       def call
-        return Result.new(:error => :invalid_input, :uid => nil) unless valid?
-
-        Result.new(:error => nil, :uid => update_quote)
+        Result.new(:error => error, :uid => update_quote)
       end
 
       private
 
+      def error
+        return :invalid_input unless valid?
+        return :invalid_user unless user_uid == quote[:added_by]
+      end
+
       def update_quote
-        update_in_gateway build_quote
+        update_in_gateway build_quote unless error
       end
 
       def build_quote
