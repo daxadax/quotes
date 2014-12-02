@@ -1,21 +1,28 @@
 require 'spec_helper'
 
 class PublicationSpec < Minitest::Spec
-
+  let(:added_by) { 23 }
   let(:author) { 'John Doe' }
   let(:title) { 'A Critique of Something' }
   let(:publisher) { 'Pension Books LTD' }
   let(:year) { 2001 }
   let(:uid) { nil }
 
-  let(:publication) { Entities::Publication.new(author, title, publisher, year, uid) }
+  let(:publication) do
+    Entities::Publication.new(added_by, author, title, publisher, year, uid)
+  end
 
   describe 'construction' do
-    it 'can be built with four arguments' do
+    it 'can be built with five arguments' do
       assert_correct_storage
     end
 
     describe 'without' do
+
+      describe 'added_by' do
+        let(:added_by) {nil}
+        it('fails') {assert_failure{publication}}
+      end
 
       describe 'author' do
         let(:author)  {nil}

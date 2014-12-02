@@ -27,13 +27,16 @@ module Support
     end
 
     def build_publication(uid, options = {})
+      added_by = options[:added_by] || 23
       author = options[:author] || 'Author'
       title = options[:title] || 'Title'
       publisher = options[:publisher] || 'Publisher'
       year = options[:year] || 1963
       uid = uid
 
-      Quotes::Entities::Publication.new(author, title, publisher, year, uid)
+      Quotes::Entities::Publication.new(
+        added_by, author, title, publisher, year, uid
+      )
     end
 
     def build_serialized_quote(options = {})
@@ -55,6 +58,7 @@ module Support
     def build_serialized_publication(options = {})
       {
         :uid => options[:uid] || nil,
+        :added_by => options[:added_by] || 23,
         :author => 'author',
         :title => options[:title] || 'title',
         :publisher => 'publisher',

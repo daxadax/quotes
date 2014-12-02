@@ -2,12 +2,13 @@ module Quotes
   module Entities
     class Publication < Entity
       attr_accessor :author, :title, :publisher, :year
-      attr_reader :uid
+      attr_reader :added_by, :uid
 
-      def initialize(author, title, publisher, year, uid = nil)
-        validate(author, title, publisher, year)
+      def initialize(added_by, author, title, publisher, year, uid = nil)
+        validate(added_by, author, title, publisher, year)
 
         @uid = uid
+        @added_by = added_by
         @author = author
         @title = title
         @publisher = publisher
@@ -16,8 +17,8 @@ module Quotes
 
       private
 
-      def validate(author, title, publisher, year)
-        ['author', 'title', 'publisher', 'year'].each do |param_name|
+      def validate(added_by, author, title, publisher, year)
+        ['added_by', 'author', 'title', 'publisher', 'year'].each do |param_name|
           value   = eval(param_name)
           reason  = "#{param_name.capitalize} missing"
 

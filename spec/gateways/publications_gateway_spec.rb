@@ -37,6 +37,7 @@ class PublicationsGatewaySpec < GatewaySpec
       uid = add_publication
       result = gateway.get(uid)
 
+      assert_equal result.added_by, publication.added_by
       assert_equal result.author, publication.author
       assert_equal result.title, publication.title
       assert_equal result.publisher, publication.publisher
@@ -65,6 +66,7 @@ class PublicationsGatewaySpec < GatewaySpec
 
       refute_equal publication, result
       assert_equal uid, result.uid
+      assert_equal updated_publication.added_by, result.added_by
       assert_equal updated_publication.author, result.author
       assert_equal updated_publication.title, result.title
       assert_equal updated_publication.publisher, result.publisher
@@ -74,9 +76,9 @@ class PublicationsGatewaySpec < GatewaySpec
   end
 
   describe "all" do
-    let(:publication_two)   { build_publication(nil,:author => "different") }
+    let(:publication_two) { build_publication(nil,:author => "different") }
     let(:publication_three) { build_publication(nil,:author => "something else") }
-    let(:publications)      { [publication, publication_two, publication_three] }
+    let(:publications) { [publication, publication_two, publication_three] }
 
     it "returns an empty array if the backend is empty" do
       assert_empty gateway.all

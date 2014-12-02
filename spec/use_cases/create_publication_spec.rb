@@ -2,9 +2,12 @@ require 'spec_helper'
 
 class CreatePublicationSpec < UseCaseSpec
 
-  let(:publication) { build_serialized_publication }
+  let(:publication) { build_serialized_publication :no_json => true }
+  let(:user_uid) { 23 }
   let(:input) do
-    { :publication => publication }
+    {
+      :user_uid => user_uid,
+      :publication => publication }
   end
   let(:use_case) { UseCases::CreatePublication.new(input) }
 
@@ -48,12 +51,22 @@ class CreatePublicationSpec < UseCaseSpec
           assert_nil result.uid
         end
       end
+
+      describe 'with no user_uid' do
+        before { input.delete(:user_uid) }
+
+        it "fails" do
+          assert_equal :invalid_input, result.error
+          assert_nil result.uid
+        end
+      end
     end
 
     it "builds a new publication and saves it to the database" do
       assert_nil result.error
 
       assert_equal 1, loaded_publication.uid
+      assert_equal user_uid, loaded_publication.added_by
       assert_equal "author", loaded_publication.author
       assert_equal 'title', loaded_publication.title
       assert_equal 'publisher', loaded_publication.publisher

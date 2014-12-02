@@ -73,13 +73,14 @@ module Quotes
         end
 
         def self.build_publication(quote)
+          added_by = quote[:publication_added_by]
           author = quote[:author]
           title = quote[:title]
           publisher = quote[:publisher]
           year = quote[:year]
           uid = quote[:publication_uid]
 
-          Entities::Publication.new(author, title, publisher, year, uid)
+          Entities::Publication.new(added_by, author, title, publisher, year, uid)
         end
 
       end

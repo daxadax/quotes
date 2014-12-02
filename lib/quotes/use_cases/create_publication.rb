@@ -4,6 +4,7 @@ module Quotes
       Result = Bound.required(:error, :uid)
 
       def initialize(input)
+        @user_uid = input[:user_uid]
         @publication = input[:publication]
       end
 
@@ -21,12 +22,13 @@ module Quotes
       end
 
       def build_publication
+        added_by = user_uid
         author = publication[:author]
         title = publication[:title]
         publisher = publication[:publisher]
         year = publication[:year]
 
-        Entities::Publication.new(author, title, publisher, year)
+        Entities::Publication.new(added_by, author, title, publisher, year)
       end
 
       def add_to_gateway(publication)
@@ -37,8 +39,13 @@ module Quotes
         @publication
       end
 
+      def user_uid
+        @user_uid
+      end
+
       def valid?
         return false unless publication.kind_of?(Hash)
+        return false unless user_uid.kind_of?(Integer)
 
         %i[author title year].each do |required|
           return false if publication[required].nil?
