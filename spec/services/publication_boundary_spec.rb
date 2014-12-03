@@ -9,6 +9,10 @@ class PublicationBoundarySpec < ServiceSpec
     assert_equal publication.uid, result.uid
   end
 
+  it 'grants access to added_by' do
+    assert_equal publication.added_by, result.added_by
+  end
+
   it 'grants access to author' do
     assert_equal publication.author, result.author
   end

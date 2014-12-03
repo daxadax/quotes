@@ -6,6 +6,7 @@ module Quotes
 
       Publication = Bound.required(
         :uid,
+        :added_by,
         :author,
         :title,
         :publisher,
@@ -21,6 +22,7 @@ module Quotes
       def build_boundary(publication)
         Publication.new(
           :uid => publication.uid,
+          :added_by => publication.added_by,
           :author => publication.author,
           :title => publication.title,
           :publisher => publication.publisher,

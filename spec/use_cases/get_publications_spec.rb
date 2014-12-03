@@ -25,6 +25,7 @@ class GetPublicationsSpec < UseCaseSpec
         assert_kind_of Services::PublicationBoundary::Publication,  first_result
 
         assert_equal 3, first_result.uid
+        assert_equal 23, first_result.added_by
         assert_equal 'Anna Karenina', first_result.title
 
         assert_equal 5, result.publications[1].uid
