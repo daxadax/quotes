@@ -15,7 +15,18 @@ module Quotes
         @year = year
       end
 
+      def update(updates)
+        update_publication_values(updates)
+        self
+      end
+
       private
+
+      def update_publication_values(updates)
+        updates.each do |attribute, updated_value|
+          self.instance_variable_set "@#{attribute}", updated_value
+        end
+      end
 
       def validate(added_by, author, title, publisher, year)
         ['added_by', 'author', 'title', 'publisher', 'year'].each do |param_name|

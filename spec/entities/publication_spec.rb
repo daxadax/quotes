@@ -55,6 +55,40 @@ class PublicationSpec < Minitest::Spec
     end
   end
 
+  describe 'updating' do
+    let(:publication) { build_publication(:uid => 23) }
+    let(:updates_hash) { Hash.new }
+    let(:result) { publication.update(updates_hash) }
+
+    it 'does not overwrite old values unless updates exist' do
+      assert_equal publication.uid, result.uid
+      assert_equal publication.added_by, result.added_by
+      assert_equal publication.author, result.author
+      assert_equal publication.title, result.title
+      assert_equal publication.publisher, result.publisher
+      assert_equal publication.year, result.year
+    end
+
+    describe 'with updated values' do
+      let(:updates_hash) do
+        {
+          :author => 'new author',
+          :year => 2000
+        }
+      end
+
+      it 'updates all given values' do
+        assert_equal publication.uid, result.uid
+        assert_equal publication.added_by, result.added_by
+        assert_equal 'new author', result.author
+        assert_equal publication.title, result.title
+        assert_equal publication.publisher, result.publisher
+        assert_equal 2000, result.year
+      end
+    end
+
+  end
+
   def assert_correct_storage
     assert_equal author, publication.author
     assert_equal title, publication.title
