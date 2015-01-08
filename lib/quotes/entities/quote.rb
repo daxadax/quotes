@@ -13,7 +13,7 @@ module Quotes
         @content = content
         @publication = publication
         @page_number = options[:page_number] || nil
-        @tags = options[:tags] || []
+        @tags = construct_tags(options[:tags])
         @links = options[:links] || []
       end
 
@@ -49,6 +49,12 @@ module Quotes
 
       def publication
         @publication
+      end
+
+      def construct_tags(tags)
+        return [] unless tags
+
+        tags.reject(&:empty?)
       end
 
       def validate_input!(added_by, content)

@@ -80,6 +80,19 @@ class QuoteSpec < MiniTest::Spec
 
   end
 
+  describe 'tags' do
+    let(:tags) { ['tag_one', '', 'tag_two'] }
+    let(:options) do
+      { :tags => tags }
+    end
+
+    it 'rejects empty tags' do
+      assert_equal 2, quote.tags.count
+      assert_equal ['tag_one', 'tag_two'], quote.tags
+    end
+
+  end
+
   describe "links" do
     let(:links) { [23, 666, 17] }
     let(:options) do
