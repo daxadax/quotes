@@ -18,7 +18,7 @@ module Quotes
           publication_boundary.for publication
         end
 
-        publications.sort_by(&:title)
+        publications.reverse
       end
 
     end
