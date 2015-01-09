@@ -24,12 +24,12 @@ class GetPublicationsSpec < UseCaseSpec
         assert_equal 5, result.publications.size
         assert_kind_of Services::PublicationBoundary::Publication,  first_result
 
-        assert_equal 3, first_result.uid
+        assert_equal 5, first_result.uid
         assert_equal 23, first_result.added_by
-        assert_equal 'Anna Karenina', first_result.title
+        assert_equal 'Annotated Works of Shakespeare', first_result.title
 
-        assert_equal 5, result.publications[1].uid
-        assert_equal 'Annotated Works of Shakespeare', result.publications[1].title
+        assert_equal 4, result.publications[1].uid
+        assert_equal 'Pickling: A Primer', result.publications[1].title
 
         assert_equal 1, result.publications.last.uid
         assert_equal 'World War II', result.publications.last.title
