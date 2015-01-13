@@ -2,14 +2,12 @@ require 'spec_helper'
 
 class AutotagSpec < ServiceSpec
   let(:autotag) { Services::Autotag.new(quote) }
-  let(:result) { quotes_gateway.get(quote.uid) }
+  let(:result) { autotag.run }
 
   describe 'with content which does not include any current tags' do
     let(:quote) { create_quote }
 
     it 'does not add tags' do
-      autotag.run
-
       assert_empty result.tags
     end
   end
@@ -19,8 +17,6 @@ class AutotagSpec < ServiceSpec
     before { add_sample_quotes_to_db }
 
     it 'adds whole-string matching tags' do
-      autotag.run
-
       assert_equal 1, result.tags.size
       assert_includes result.tags, 'love'
       refute_includes result.tags, 'war'

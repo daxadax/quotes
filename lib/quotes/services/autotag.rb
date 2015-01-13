@@ -8,7 +8,7 @@ module Quotes
 
       def run
         add_matching_tags
-        gateway.update quote
+        quote
       end
 
       private
