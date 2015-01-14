@@ -19,10 +19,6 @@ module Quotes
           gateway.all
         end
 
-        def gateway
-          @gateway ||= Gateways::QuotesGateway.new
-        end
-
     end
   end
 end

@@ -67,10 +67,6 @@ module Quotes
         @input
       end
 
-      def gateway
-        @gateway ||= Gateways::QuotesGateway.new
-      end
-
     end
   end
 end
