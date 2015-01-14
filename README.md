@@ -8,5 +8,6 @@ TODO:
  * find a better way to require files
  * -change quote#id > quote#uid-
  * -build book aggregate-
- * turn kindle imporing task into a usecase
+ * -turn kindle imporing task into a usecase- it's a task
+ * tasks should be run through a higher level domain (manager::interface?)
  * how to handle deleted quotes/publications?  can they be deleted?  what if other users have marked them as favorites?
