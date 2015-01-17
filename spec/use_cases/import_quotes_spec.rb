@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-class ImportQuotesSpec < UseCaseSpec
+class ImportFromKindleSpec < UseCaseSpec
 
   let(:file) do
     File.read("spec/support/kindle_clippings_with_dups.txt")
@@ -12,7 +12,7 @@ class ImportQuotesSpec < UseCaseSpec
       :file => file
     }
   end
-  let(:task) { UseCases::ImportQuotes.new(input) }
+  let(:task) { UseCases::ImportFromKindle.new(input) }
 
   describe "call" do
 
@@ -56,7 +56,7 @@ class ImportQuotesSpec < UseCaseSpec
           :file => File.read("spec/support/sample_kindle_clippings.txt")
         }
 
-        UseCases::ImportQuotes.new(input).call
+        UseCases::ImportFromKindle.new(input).call
       end
     end
 

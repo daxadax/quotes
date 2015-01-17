@@ -1,6 +1,6 @@
 module Quotes
   module UseCases
-    class ImportQuotes < UseCase
+    class ImportFromKindle < UseCase
 
       def initialize(input)
         validate input

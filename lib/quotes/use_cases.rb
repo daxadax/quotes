@@ -7,7 +7,7 @@ require 'quotes/use_cases/delete_quote'
 require 'quotes/use_cases/update_links'
 require 'quotes/use_cases/search'
 
-require 'quotes/use_cases/import_quotes'
+require 'quotes/use_cases/import_from_kindle'
 
 require 'quotes/use_cases/create_publication'
 require 'quotes/use_cases/get_publication'
