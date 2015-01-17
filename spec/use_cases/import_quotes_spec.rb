@@ -1,21 +1,26 @@
 require 'spec_helper'
-require 'support/fake_gateway_access'
 
-class ImportQuotesSpec < FakeGatewayAccess
+class ImportQuotesSpec < UseCaseSpec
 
   let(:file) do
     File.read("spec/support/kindle_clippings_with_dups.txt")
   end
   let(:user_uid) { 23 }
-  let(:task) { Tasks::ImportQuotes.new(user_uid, file) }
+  let(:input) do
+    {
+      :user_uid => user_uid,
+      :file => file
+    }
+  end
+  let(:task) { UseCases::ImportQuotes.new(input) }
 
-  describe "run" do
+  describe "call" do
 
     describe 'with input that cannot be parsed' do
       let(:file) { "some nonsense" }
 
       it 'nothing is added to the gateway' do
-        assert_raises(ArgumentError) { task.run }
+        assert_raises(ArgumentError) { task.call }
         assert_empty quotes_gateway.all
       end
     end
@@ -23,7 +28,7 @@ class ImportQuotesSpec < FakeGatewayAccess
     describe "with parsable input" do
 
       it "adds all quote entities to the gateway" do
-        task.run
+        task.call
 
         result = quotes_gateway.all
         assert_kind_of Array, result
@@ -39,15 +44,19 @@ class ImportQuotesSpec < FakeGatewayAccess
         end
 
         it "does not return duplicates" do
-          task.run
+          task.call
 
           assert_equal 3, quotes_gateway.all.size
         end
       end
 
       def seed_database_with_duplicate_quotes
-        file = File.read("spec/support/sample_kindle_clippings.txt")
-        Tasks::ImportQuotes.new(user_uid, file).run
+        input = {
+          :user_uid => user_uid,
+          :file => File.read("spec/support/sample_kindle_clippings.txt")
+        }
+
+        UseCases::ImportQuotes.new(input).call
       end
     end
 

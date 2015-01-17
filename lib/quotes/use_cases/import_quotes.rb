@@ -1,22 +1,22 @@
 module Quotes
-  module Tasks
-    class ImportQuotes < Task
+  module UseCases
+    class ImportQuotes < UseCase
 
-      def initialize(user_uid, input)
+      def initialize(input)
         validate input
 
-        @user_uid = user_uid
-        @input = input
+        @user_uid = input[:user_uid]
+        @file = input[:file]
       end
 
-      def run
+      def call
         import_unique_quotes
       end
 
       private
 
       def import_unique_quotes
-        quotes = parse input
+        quotes = parse file
 
         add_to_gateway quotes
       end
@@ -28,12 +28,12 @@ module Quotes
       def add_to_gateway(quotes)
         quotes.each do |quote|
           next if duplicate?(quote)
-          gateway.add(quote)
+          quotes_gateway.add(quote)
         end
       end
 
       def duplicate?(new_quote)
-        duplicate = gateway.all.detect do |persisted_quote|
+        duplicate = quotes_gateway.all.detect do |persisted_quote|
           persisted_quote.author == new_quote.author &&
           persisted_quote.title == new_quote.title &&
           string_diff(persisted_quote, new_quote) <= 0.1
@@ -50,21 +50,31 @@ module Quotes
         (original - new_string).size / original.size.to_f
       end
 
-      def parse(input)
-        Services::KindleImporter.new(user_uid, input).import
+      def parse(file)
+        Services::KindleImporter.new(user_uid, file).import
       end
 
       def validate(input)
+        validate_user_uid input[:user_uid]
+        validate_file input[:file]
+      end
+
+      def validate_user_uid(user_uid)
+        msg = "Not a valid user uid"
+        raise ArgumentError, msg unless user_uid.is_a? Integer
+      end
+
+      def validate_file(file)
         msg = "Not a valid kindle clippings file"
-        raise ArgumentError, msg unless input.start_with?("==")
+        raise ArgumentError, msg unless file.start_with?("==")
       end
 
       def user_uid
         @user_uid
       end
 
-      def input
-        @input
+      def file
+        @file
       end
 
     end
