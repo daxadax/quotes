@@ -35,7 +35,7 @@ class KindleImporterSpec < ServiceSpec
       end
 
       it 'only parses notes and highlights' do
-        assert_equal 2, result.size
+        assert_equal 3, result.size
       end
 
       describe 'used publications' do
