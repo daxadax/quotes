@@ -1,6 +1,7 @@
 module Quotes
   module UseCases
     class ImportFromKindle < UseCase
+      Result  = Bound.required(:error, :possible_duplicates)
 
       def initialize(input)
         validate input
@@ -11,6 +12,8 @@ module Quotes
 
       def call
         import_unique_quotes
+
+        Result.new(:error => error, :possible_duplicates => duplicates)
       end
 
       private
@@ -19,10 +22,6 @@ module Quotes
         quotes = parse file
 
         add_to_gateway quotes
-      end
-
-      def remove_duplicates(quotes)
-        quotes.uniq { |quote| quote.content }
       end
 
       def add_to_gateway(quotes)
@@ -36,10 +35,13 @@ module Quotes
         duplicate = quotes_gateway.all.detect do |persisted_quote|
           persisted_quote.author == new_quote.author &&
           persisted_quote.title == new_quote.title &&
-          string_diff(persisted_quote, new_quote) <= 0.1
+          string_diff(persisted_quote, new_quote) <= 0.2
         end
 
-        return true if duplicate
+        if duplicate
+          duplicates << [new_quote, duplicate]
+          return true
+        end
         false
       end
 
@@ -51,7 +53,8 @@ module Quotes
       end
 
       def parse(file)
-        Services::KindleImporter.new(user_uid, file).import
+        result = Services::KindleImporter.new(user_uid, file).import
+        result
       end
 
       def validate(input)
@@ -61,12 +64,12 @@ module Quotes
 
       def validate_user_uid(user_uid)
         msg = "Not a valid user uid"
-        raise ArgumentError, msg unless user_uid.is_a? Integer
+        @error = msg if user_uid.nil? || !user_uid.is_a?(Integer)
       end
 
       def validate_file(file)
         msg = "Not a valid kindle clippings file"
-        raise ArgumentError, msg unless file.start_with?("==")
+        @error = msg if file.nil? || !file.start_with?("==")
       end
 
       def user_uid
@@ -75,6 +78,14 @@ module Quotes
 
       def file
         @file
+      end
+
+      def duplicates
+        @duplicates ||= []
+      end
+
+      def error
+        @error
       end
 
     end

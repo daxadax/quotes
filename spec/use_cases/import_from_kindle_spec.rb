@@ -12,7 +12,8 @@ class ImportFromKindleSpec < UseCaseSpec
       :file => file
     }
   end
-  let(:task) { UseCases::ImportFromKindle.new(input) }
+  let(:use_case) { UseCases::ImportFromKindle.new(input) }
+  let(:result) { use_case.call }
 
   describe "call" do
 
@@ -20,7 +21,7 @@ class ImportFromKindleSpec < UseCaseSpec
       let(:file) { "some nonsense" }
 
       it 'nothing is added to the gateway' do
-        assert_raises(ArgumentError) { task.call }
+        assert_equal "Not a valid kindle clippings file", result.error
         assert_empty quotes_gateway.all
       end
     end
@@ -28,7 +29,7 @@ class ImportFromKindleSpec < UseCaseSpec
     describe "with parsable input" do
 
       it "adds all quote entities to the gateway" do
-        task.call
+        assert_nil result.error
 
         result = quotes_gateway.all
         assert_kind_of Array, result
@@ -43,8 +44,13 @@ class ImportFromKindleSpec < UseCaseSpec
           seed_database_with_duplicate_quotes
         end
 
-        it "does not return duplicates" do
-          task.call
+        it "returns possible duplicates" do
+          assert_nil result.error
+
+          duplicates = result.possible_duplicates
+          assert_equal 4, duplicates.size
+          assert_includes duplicates.flatten.map(&:content),
+            "This is a duplicate sample highlight."
 
           assert_equal 3, quotes_gateway.all.size
         end
