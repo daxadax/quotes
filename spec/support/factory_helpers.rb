@@ -3,6 +3,17 @@ require 'json'
 module Support
   module FactoryHelpers
 
+    def create_quotes_with_tags(size, used_tags, options = {})
+      size.times do |index|
+        options_for_quote = {
+          :content => "A quote about #{used_tags[index]}",
+          :tags => [used_tags[index]]
+        }.merge(options)
+
+        create_quote(options_for_quote)
+      end
+    end
+
     def create_quote(options = {})
       options[:publication] = create_publication(options)
       quote = build_quote(options)
