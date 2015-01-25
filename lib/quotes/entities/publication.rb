@@ -5,7 +5,7 @@ module Quotes
       attr_reader :added_by, :uid
 
       def initialize(added_by, author, title, publisher, year, uid = nil)
-        validate(added_by, author, title, publisher, year)
+        validate!(added_by, author, title, publisher, year)
 
         @uid = uid
         @added_by = added_by
@@ -28,7 +28,7 @@ module Quotes
         end
       end
 
-      def validate(added_by, author, title, publisher, year)
+      def validate!(added_by, author, title, publisher, year)
         ['added_by', 'author', 'title', 'publisher', 'year'].each do |param_name|
           value   = eval(param_name)
           reason  = "#{param_name.capitalize} missing"
