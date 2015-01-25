@@ -17,11 +17,6 @@ module Quotes
         @links = options[:links] || []
       end
 
-      def update(updates)
-        update_values(updates)
-        self
-      end
-
       def publication_uid
         publication.uid
       end
@@ -51,12 +46,6 @@ module Quotes
       end
 
       private
-
-      def update_values(updates)
-        updates.each do |attribute, updated_value|
-          self.instance_variable_set "@#{attribute}", updated_value
-        end
-      end
 
       def publication
         @publication
