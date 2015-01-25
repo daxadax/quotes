@@ -126,12 +126,36 @@ class QuoteSpec < MiniTest::Spec
     end
   end
 
-  describe "updating attributes" do
-    it "is possible" do
-      quote.content = "updated content"
+  describe 'updating' do
+    let(:quote) { build_quote(:uid => 23) }
+    let(:updates_hash) { Hash.new }
+    let(:result) { quote.update(updates_hash) }
 
-      assert_equal 'updated content', quote.content
+    it 'does not overwrite old values unless updates exist' do
+      assert_equal quote.uid, result.uid
+      assert_equal quote.added_by, result.added_by
+      assert_equal quote.content, result.content
+      assert_equal quote.page_number, result.page_number
+      assert_equal quote.tags, result.tags
     end
+
+    describe 'with updated values' do
+      let(:updates_hash) do
+        {
+          :content => 'updated content',
+          :page_number => 'xvii'
+        }
+      end
+
+      it 'updates all given values' do
+        assert_equal quote.uid, result.uid
+        assert_equal quote.added_by, result.added_by
+        assert_equal updates_hash[:content], result.content
+        assert_equal updates_hash[:page_number], result.page_number
+        assert_equal quote.tags, result.tags
+      end
+    end
+
   end
 
 end

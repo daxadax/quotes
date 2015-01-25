@@ -1,8 +1,8 @@
 module Quotes
   module Entities
     class Quote < Entity
-      attr_accessor :uid, :content, :page_number, :tags
-      attr_reader   :links, :added_by
+      attr_accessor :content, :page_number, :tags
+      attr_reader   :links, :uid, :added_by
 
       def initialize(added_by, content, publication, options = {})
         validate_input!(added_by, content)
@@ -15,6 +15,11 @@ module Quotes
         @page_number = options[:page_number] || nil
         @tags = construct_tags(options[:tags])
         @links = options[:links] || []
+      end
+
+      def update(updates)
+        update_values(updates)
+        self
       end
 
       def publication_uid
@@ -46,6 +51,12 @@ module Quotes
       end
 
       private
+
+      def update_values(updates)
+        updates.each do |attribute, updated_value|
+          self.instance_variable_set "@#{attribute}", updated_value
+        end
+      end
 
       def publication
         @publication
