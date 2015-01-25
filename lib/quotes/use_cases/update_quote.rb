@@ -26,8 +26,16 @@ module Quotes
       end
 
       def update(quote)
+        if updates[:publication_uid] != quote.publication_uid
+          updates[:publication] = updated_publication
+        end
+
         quote.update(updates)
         quotes_gateway.update quote
+      end
+
+      def updated_publication
+        publications_gateway.get(updates[:publication_uid])
       end
 
       def uid

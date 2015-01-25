@@ -6,7 +6,8 @@ class UpdateQuoteSpec < UseCaseSpec
   let(:user_uid) { 23 }
   let(:updates) do
     {
-      :content => 'updated content'
+      :content => 'updated content',
+      :publication_uid => 1
     }
   end
   let(:input) do
@@ -24,7 +25,7 @@ class UpdateQuoteSpec < UseCaseSpec
     let(:loaded_quote) { quotes_gateway.get(result.uid) }
 
   describe "with invalid input" do
-      describe "with a non-existent publication" do
+      describe "with a non-existent quote" do
         let(:uid) { 99 }
 
         it "fails" do
@@ -33,7 +34,7 @@ class UpdateQuoteSpec < UseCaseSpec
         end
       end
 
-      describe "when the user updating the publication isn't the owner" do
+      describe "when the user updating the quote isn't the owner" do
         let(:user_uid) { 99 }
 
         it "fails" do
@@ -60,6 +61,21 @@ class UpdateQuoteSpec < UseCaseSpec
         assert_equal 'Title', loaded_quote.title
         assert_equal 'Publisher', loaded_quote.publisher
         assert_equal 1963, loaded_quote.year
+      end
+    end
+
+    describe 'when the publication uid has changed' do
+      let(:new_publication) { create_publication :title => 'A Different Publication'}
+      let(:updates) do
+        {
+          :publication_uid => new_publication.uid
+        }
+      end
+
+      it 'updates the quote with new publication information' do
+        assert_equal 1, loaded_quote.uid
+        assert_equal new_publication.uid, loaded_quote.publication_uid
+        assert_equal new_publication.title, loaded_quote.title
       end
     end
 
