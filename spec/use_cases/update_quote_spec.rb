@@ -6,8 +6,7 @@ class UpdateQuoteSpec < UseCaseSpec
   let(:user_uid) { 23 }
   let(:updates) do
     {
-      :content => 'updated content',
-      :publication_uid => 1
+      :content => 'updated content'
     }
   end
   let(:input) do
