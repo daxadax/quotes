@@ -3,11 +3,10 @@ require 'spec_helper'
 class UpdatePublicationSpec < UseCaseSpec
 
   let(:uid) { 1 }
+  let(:user_uid) { 23 }
   let(:updates) do
     { :author => 'updated author'}
   end
-  let(:publication) { build_serialized_publication(options) }
-  let(:user_uid) { 23 }
   let(:input) do
     {
       :user_uid => user_uid,
@@ -24,7 +23,7 @@ class UpdatePublicationSpec < UseCaseSpec
 
     describe "with invalid input" do
       describe "with a non-existent publication" do
-          let(:uid) { 99 }
+        let(:uid) { 99 }
 
         it "fails" do
           assert_equal :publication_not_found, result.error
