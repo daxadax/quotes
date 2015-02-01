@@ -1,19 +1,24 @@
 module Quotes
   module UseCases
     class ImportFromKindle < UseCase
-      Result  = Bound.required(:error, :possible_duplicates)
+      Result  = Bound.required(:error, :possible_duplicates, :added_quotes)
 
       def initialize(input)
         validate input
 
         @user_uid = input[:user_uid]
         @file = input[:file]
+        @added_quotes = []
       end
 
       def call
         import_unique_quotes
 
-        Result.new(:error => error, :possible_duplicates => duplicates)
+        Result.new(
+          :error => error,
+          :possible_duplicates => duplicates,
+          :added_quotes => added_quotes
+        )
       end
 
       private
@@ -27,7 +32,8 @@ module Quotes
       def add_to_gateway(quotes)
         quotes.each do |quote|
           next if duplicate?(quote)
-          quotes_gateway.add(quote)
+          uid = quotes_gateway.add(quote)
+          added_quotes << quotes_gateway.get(uid)
         end
       end
 
@@ -70,6 +76,10 @@ module Quotes
       def validate_file(file)
         msg = "Not a valid kindle clippings file"
         @error = msg if file.nil? || !file.start_with?("==")
+      end
+
+      def added_quotes
+        @added_quotes
       end
 
       def user_uid

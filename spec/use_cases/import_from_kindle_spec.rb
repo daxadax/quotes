@@ -22,7 +22,7 @@ class ImportFromKindleSpec < UseCaseSpec
 
       it 'nothing is added to the gateway' do
         assert_equal "Not a valid kindle clippings file", result.error
-        assert_empty quotes_gateway.all
+        assert_empty result.added_quotes
       end
     end
 
@@ -30,13 +30,13 @@ class ImportFromKindleSpec < UseCaseSpec
 
       it "adds all quote entities to the gateway" do
         assert_nil result.error
+        quotes = result.added_quotes
 
-        result = quotes_gateway.all
-        assert_kind_of Array, result
-        assert_kind_of Entities::Quote, result.last
-        assert_equal 23, result.last.added_by
-        assert_equal 'Sample Author', result.last.author
-        assert_includes result.last.content, 'sample highlight'
+        assert_equal 3, quotes.size
+        assert_kind_of Entities::Quote, quotes.last
+        assert_equal 23, quotes.last.added_by
+        assert_equal 'Sample Author', quotes.last.author
+        assert_includes quotes.last.content, 'sample highlight'
       end
 
       describe 'with duplicate quotes' do
@@ -52,7 +52,7 @@ class ImportFromKindleSpec < UseCaseSpec
           assert_includes duplicates.flatten.map(&:content),
             "This is a duplicate sample highlight."
 
-          assert_equal 3, quotes_gateway.all.size
+          assert_empty result.added_quotes
         end
       end
 
