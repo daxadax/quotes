@@ -4,9 +4,10 @@ class UpdateQuoteSpec < UseCaseSpec
 
   let(:uid) { 1 }
   let(:user_uid) { 23 }
+  let(:content) { 'updated content' }
   let(:updates) do
     {
-      :content => 'updated content'
+      :content => content
     }
   end
   let(:input) do
@@ -29,6 +30,15 @@ class UpdateQuoteSpec < UseCaseSpec
 
         it "fails" do
           assert_equal :quote_not_found, result.error
+          assert_nil result.uid
+        end
+      end
+
+      describe 'with empty strings for required fields' do
+        let(:content) { '' }
+
+        it 'fails' do
+          assert_equal :invalid_input, result.error
           assert_nil result.uid
         end
       end

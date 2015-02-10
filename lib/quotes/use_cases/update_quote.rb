@@ -13,6 +13,7 @@ module Quotes
       def call
         quote = quotes_gateway.get uid
 
+        return failure(:invalid_input) if empty_input?
         return failure(:quote_not_found) unless quote
         return failure(:invalid_user) unless user_uid == quote.added_by
 
@@ -35,6 +36,10 @@ module Quotes
       def publication_updated?(quote)
         return false unless updates[:publication_uid]
         return true if updates[:publication_uid] != quote.publication_uid
+      end
+
+      def empty_input?
+        updates.values.any? {  |update| update.to_s.empty? }
       end
 
       def fetch_updated_publication
