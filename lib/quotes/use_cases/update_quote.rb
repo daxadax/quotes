@@ -30,7 +30,8 @@ module Quotes
         fetch_updated_publication if publication_updated?(quote)
 
         quote.update(updates)
-        quotes_gateway.update quote
+        result = quotes_gateway.update quote
+        return quote.uid if result == 1
       end
 
       def publication_updated?(quote)
