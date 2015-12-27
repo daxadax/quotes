@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 gemspec
 
-gem 'persistence', :path => '../persistence'
+gem 'persistence', :git => 'https://github.com/daxadax/quotes-persistence'
